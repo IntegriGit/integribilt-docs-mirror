@@ -1,0 +1,103 @@
+---
+title: Design Patterns
+description: "Design your workspace, peers, and sessions for common application patterns"
+icon: "cubes"
+---
+
+<Info>
+This page covers **how to structure** workspaces, peers, and sessions for real applications. For the conceptual model behind them, start with [Architecture](/v3/documentation/core-concepts/architecture).
+
+Ready to add Honcho to your codebase? The **`/honcho-integration` skill** applies these patterns for you — it explores your code, asks how your peers and sessions should map to your app, and wires in the Honcho SDK. Run it in any coding agent that supports skills (Claude Code, Cursor, and others).
+</Info>
+
+## Quick Reference
+
+**Workspaces isolate, peers persist, and sessions scope the active context.**
+
+| Decision | Recommendation |
+|----------|---------------|
+| How many workspaces? | One workspace per application, tool, tenant, or collaboration boundary. Split workspaces only when you need hard isolation between products, customers, environments, or agents. |
+| When should agents share a workspace? | When agents collaborate over the same product, project, team, user, customer, or game state. Separate them when they should not see or influence each other's memory. |
+| Who should be a peer? | Any persistent participant whose messages should be attributed or reasoned about: users, agents, assistants, NPCs, students, or customers. Use one peer for the same entity across sessions and platforms. |
+| How should I scope sessions? | Scope sessions to the active interaction: per-conversation, per-channel, per-task run, per-project, per-import, or other bounded context. Reuse a session when local context should keep accumulating. |
+| How does cross-session reasoning work? | Session memory stays local to one session. Peer representations accumulate across every session where the peer is included, and `session.context()` becomes cross-session when you include a peer target. |
+| Should I set `observe_me: false`? | Yes, for deterministic peers Honcho does not need to model, like bots or tool agents. Still save their messages so other peers have session context. Keep it enabled for users and evolving agents. |
+| Do I need `observe_others`? | Only when a peer needs its own perspective on another participant, such as in games, multi-agent systems, or parent/subagent workflows. |
+
+## Workspace Design
+
+A workspace is a hard isolation boundary. **Default to one workspace per application,** and split only at a real privacy, compliance, or product boundary (e.g. per-tenant SaaS, or a tool that needs intentionally isolated memory). Agents that collaborate over the same product, user, or game state belong in the *same* workspace so each can retrieve what the others produced.
+
+Honcho plugins default to one workspace *per host* (`hermes`, `claude_code`, `cursor`, `opencode`). To unify memory across them, point each at the same workspace — see [Unified Memory Setup](/v3/guides/recipes/unified-memory-setup).
+
+<Info>
+The SDK creates a workspace called `default` when no `workspace_id` is specified.
+</Info>
+
+---
+
+## Peer Design
+
+Give each real-world entity **one** stable peer ID and reuse it everywhere — splitting one entity across `user-web`, `user-discord`, and `user-slack` builds three separate representations. Prefix IDs by source for multi-channel apps (`discord_491827364`), and if a peer goes by multiple names, store the aliases in its peer card with `set_card()` / `setCard()`.
+
+<Tip>
+For unified context across Honcho plugins, set the same user peer ID (`peerName`) everywhere — that shared ID is what connects memory across Claude Code, Cursor, OpenCode, and your own app. See [Unified Memory Setup](/v3/guides/recipes/unified-memory-setup).
+</Tip>
+
+---
+
+## Session Design
+
+Sessions define the temporal boundaries of an interaction. How you scope them affects how summaries are generated, how context is retrieved, and when reasoning fires.
+
+**Common session patterns**
+
+| Pattern | Session scoped to | Example |
+|---------|-------------------|---------|
+| Per-conversation | Each new chat thread | ChatGPT or Claude Code style UI where each thread is a session |
+| Per-channel | A persistent channel or room | Discord channel, Slack thread |
+| Per-interaction | A bounded task or encounter | A support ticket, a game encounter |
+| Per-project | A persistent work area | Coding agent memory for one repository |
+| Per-import | A batch of external data | Importing emails or documents for a single peer |
+
+Create a **new** session when context resets (new conversation, new day, new topic); **reuse** one when context should keep accumulating (ongoing channel, persistent thread).
+
+<Warning>
+**Don't scope sessions too thin.** Honcho batches reasoning until a peer accumulates ~1,000 tokens *within a single session*, with a default age-based flush for quiet tails ([token batching](/v3/documentation/core-concepts/reasoning#token-batching)). Low-volume or trickle inputs should still append to one ongoing session rather than fragment across many, so reasoning runs with useful context instead of many small delayed batches.
+</Warning>
+
+**How cross-session reasoning works**
+
+- **Session memory** is local to an interaction — summaries and recent-message context describe only what happened there.
+- **Peer memory** (representations) accumulates reasoning across every session the peer is part of.
+
+So you can start a session fresh or pull in a peer's long-term memory. [`session.context()`](/v3/documentation/features/get-context) returns the current session's summary and recent messages; add a [peer target](/v3/documentation/features/get-context#peer-representation-in-context) to fold in that peer's cross-session history.
+
+---
+
+## Common Mistakes
+
+- **Splitting one identity across peer IDs** -- If the same user is `alice`, `alice-discord`, and `alice-cursor`, Honcho builds separate representations. Use one stable peer ID when you want unified memory.
+- **Too many tiny sessions** -- Summaries and recent messages are session-scoped, and reasoning only fires past ~1,000 tokens per session. Splitting a continuous conversation across many sessions fragments local context and can stall reasoning. Reuse a session when context should flow continuously.
+- **Separating agents that should collaborate** -- If agents need shared product, customer, or team context, put them in the same workspace. Separate workspaces are hard isolation boundaries.
+- **Leaving `observe_me` on for assistants** -- Wastes reasoning compute on a peer you control. Deterministic behavior doesn't need to be modeled.
+- **Turning on `observe_others` everywhere** -- Directional representations are powerful, but they add complexity. Use them when peers need distinct perspectives, not just because a session has multiple peers.
+- **Forgetting `peer_target` on session context** -- `session.context()` defaults to the active session's summary and recent messages, which are session-scoped. It becomes cross-session only through adding a peer_target which includes the peer representation.
+- **Blocking on processing** -- Messages are processed asynchronously in the background. Don't poll or wait for reasoning to complete before continuing your application flow.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Unified Memory Setup" icon="diagram-project" href="/v3/guides/recipes/unified-memory-setup">
+    Wire these patterns into one shared workspace across four integrations
+  </Card>
+  <Card title="Get Context" icon="messages" href="/v3/documentation/features/get-context">
+    Retrieve formatted context from sessions for your LLM
+  </Card>
+  <Card title="Chat Endpoint" icon="comments" href="/v3/documentation/features/chat">
+    Query Honcho about your peers with natural language
+  </Card>
+  <Card title="Reasoning Configuration" icon="wrench" href="/v3/documentation/features/advanced/reasoning-configuration">
+    Fine-tune what gets reasoned about and how
+  </Card>
+</CardGroup>

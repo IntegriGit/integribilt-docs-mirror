@@ -1,0 +1,108 @@
+# Honcho
+
+## Docs
+
+- [SDK and API Compatibility Guide](https://honcho.dev/docs/changelog/compatibility-guide.md): Compatibility guide for Honcho's SDKs and API
+- [Changelog](https://honcho.dev/docs/changelog/introduction.md)
+- [Create Conclusions](https://honcho.dev/docs/v3/api-reference/endpoint/conclusions/create-conclusions.md): Create one or more Conclusions.
+- [Delete Conclusion](https://honcho.dev/docs/v3/api-reference/endpoint/conclusions/delete-conclusion.md): Delete a single Conclusion by ID.
+- [List Conclusions](https://honcho.dev/docs/v3/api-reference/endpoint/conclusions/list-conclusions.md): List Conclusions using optional filters, ordered by recency unless `reverse` is true. Results are paginated.
+- [Query Conclusions](https://honcho.dev/docs/v3/api-reference/endpoint/conclusions/query-conclusions.md): Query Conclusions using semantic search. Use `top_k` to control the number of results returned.
+- [Create Key](https://honcho.dev/docs/v3/api-reference/endpoint/keys/create-key.md): Create a new Key
+- [Create Messages For Session](https://honcho.dev/docs/v3/api-reference/endpoint/messages/create-messages-for-session.md): Add new message(s) to a session.
+- [Create Messages With File](https://honcho.dev/docs/v3/api-reference/endpoint/messages/create-messages-with-file.md): Create messages from uploaded files. Files are converted to text and split into multiple messages.
+- [Get Message](https://honcho.dev/docs/v3/api-reference/endpoint/messages/get-message.md): Get a single message by ID from a Session.
+- [Get Messages](https://honcho.dev/docs/v3/api-reference/endpoint/messages/get-messages.md): Get all messages for a Session with optional filters. Results are paginated.
+- [Update Message](https://honcho.dev/docs/v3/api-reference/endpoint/messages/update-message.md): Update the metadata of a message.
+- [Chat](https://honcho.dev/docs/v3/api-reference/endpoint/peers/chat.md): Query a Peer's representation using natural language. Performs agentic search and reasoning to comprehensively answer the query based on all latent knowledge gathered about the peer from their messages and conclusions.
+- [Get Or Create Peer](https://honcho.dev/docs/v3/api-reference/endpoint/peers/get-or-create-peer.md): Get a Peer by ID or create a new Peer with the given ID.
+- [Get Peer Card](https://honcho.dev/docs/v3/api-reference/endpoint/peers/get-peer-card.md): Get a peer card for a specific peer relationship.
+- [Get Peer Context](https://honcho.dev/docs/v3/api-reference/endpoint/peers/get-peer-context.md): Get context for a peer, including their representation and peer card.
+- [Get Peers](https://honcho.dev/docs/v3/api-reference/endpoint/peers/get-peers.md): Get all Peers for a Workspace, paginated with optional filters.
+- [Get Representation](https://honcho.dev/docs/v3/api-reference/endpoint/peers/get-representation.md): Get a curated subset of a Peer's Representation. A Representation is always a subset of the total knowledge about the Peer. The subset can be scoped and filtered in various ways.
+- [Get Sessions For Peer](https://honcho.dev/docs/v3/api-reference/endpoint/peers/get-sessions-for-peer.md): Get all Sessions for a Peer, paginated with optional filters.
+- [Search Peer](https://honcho.dev/docs/v3/api-reference/endpoint/peers/search-peer.md): Search a Peer's messages, optionally filtered by various criteria.
+- [Set Peer Card](https://honcho.dev/docs/v3/api-reference/endpoint/peers/set-peer-card.md): Set a peer card for a specific peer relationship.
+- [Update Peer](https://honcho.dev/docs/v3/api-reference/endpoint/peers/update-peer.md): Update a Peer's metadata and/or configuration.
+- [Add Peers To Session](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/add-peers-to-session.md): Add Peers to a Session. If a Peer does not yet exist, it will be created automatically.
+- [Clone Session](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/clone-session.md): Clone a Session, optionally up to a specific message ID.
+- [Delete Session](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/delete-session.md): Delete a Session and all associated messages.
+- [Get Or Create Session](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/get-or-create-session.md): Get a Session by ID or create a new Session with the given ID.
+- [Get Peer Config](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/get-peer-config.md): Get the configuration for a Peer in a Session.
+- [Get Session Context](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/get-session-context.md): Produce a context object from the Session. The caller provides an optional token limit which the entire context must fit into. If not provided, the context will be exhaustive (within configured max tokens). To do this, we allocate 40% of the token limit to the summary, and 60% to recent messages --…
+- [Get Session Peers](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/get-session-peers.md): Get all Peers in a Session. Results are paginated.
+- [Get Session Summaries](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/get-session-summaries.md): Get available summaries for a Session.
+- [Get Sessions](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/get-sessions.md): Get all Sessions for a Workspace, paginated with optional filters.
+- [Remove Peers From Session](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/remove-peers-from-session.md): Remove Peers by ID from a Session.
+- [Search Session](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/search-session.md): Search a Session with optional filters. Use `limit` to control the number of results returned.
+- [Set Peer Config](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/set-peer-config.md): Set the configuration for a Peer in a Session.
+- [Set Session Peers](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/set-session-peers.md): Set the Peers in a Session. If a Peer does not yet exist, it will be created automatically.
+- [Update Session](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/update-session.md): Update a Session's metadata and/or configuration.
+- [Delete Webhook Endpoint](https://honcho.dev/docs/v3/api-reference/endpoint/webhooks/delete-webhook-endpoint.md): Delete a specific webhook endpoint.
+- [Get Or Create Webhook Endpoint](https://honcho.dev/docs/v3/api-reference/endpoint/webhooks/get-or-create-webhook-endpoint.md): Get or create a webhook endpoint URL.
+- [List Webhook Endpoints](https://honcho.dev/docs/v3/api-reference/endpoint/webhooks/list-webhook-endpoints.md): List all webhook endpoints, optionally filtered by workspace.
+- [Test Emit](https://honcho.dev/docs/v3/api-reference/endpoint/webhooks/test-emit.md): Test publishing a webhook event.
+- [Delete Workspace](https://honcho.dev/docs/v3/api-reference/endpoint/workspaces/delete-workspace.md): Delete a Workspace. This accepts the deletion request and processes it in the background, permanently deleting all peers, messages, conclusions, and other resources associated with the workspace.
+- [Get All Workspaces](https://honcho.dev/docs/v3/api-reference/endpoint/workspaces/get-all-workspaces.md): Get all Workspaces, paginated with optional filters.
+- [Get Or Create Workspace](https://honcho.dev/docs/v3/api-reference/endpoint/workspaces/get-or-create-workspace.md): Get a Workspace by ID.
+- [Get Queue Status](https://honcho.dev/docs/v3/api-reference/endpoint/workspaces/get-queue-status.md): Get the processing queue status for a Workspace, optionally scoped to an observer, sender, and/or session.
+- [Schedule Dream](https://honcho.dev/docs/v3/api-reference/endpoint/workspaces/schedule-dream.md): Manually schedule a dream task for a specific collection.
+- [Search Workspace](https://honcho.dev/docs/v3/api-reference/endpoint/workspaces/search-workspace.md): Search messages in a Workspace using optional filters. Use `limit` to control the number of results returned.
+- [Update Workspace](https://honcho.dev/docs/v3/api-reference/endpoint/workspaces/update-workspace.md): Update Workspace metadata and/or configuration.
+- [Introduction](https://honcho.dev/docs/v3/api-reference/introduction.md)
+- [Changing Embeddings](https://honcho.dev/docs/v3/contributing/changing-embeddings.md): How to switch embedding dimension or model on a Honcho deployment
+- [Configuration Guide](https://honcho.dev/docs/v3/contributing/configuration.md): Complete reference for configuring Honcho providers, features, and infrastructure
+- [Contributing Guidelines](https://honcho.dev/docs/v3/contributing/guidelines.md)
+- [License](https://honcho.dev/docs/v3/contributing/license.md)
+- [Local Environment Setup](https://honcho.dev/docs/v3/contributing/self-hosting.md): Set up a local environment to run Honcho for development, testing, or self-hosting
+- [Troubleshooting](https://honcho.dev/docs/v3/contributing/troubleshooting.md): Common issues and solutions when self-hosting Honcho
+- [Architecture & Intuition](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md): Understanding Honcho's core concepts and data model.
+- [Design Patterns](https://honcho.dev/docs/v3/documentation/core-concepts/design-patterns.md): Design your workspace, peers, and sessions for common application patterns
+- [Honcho Reasoning](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md)
+- [Peer Representations](https://honcho.dev/docs/v3/documentation/core-concepts/representation.md)
+- [Dreaming](https://honcho.dev/docs/v3/documentation/features/advanced/dreaming.md): How Honcho continuously improves memory through autonomous consolidation
+- [File Uploads](https://honcho.dev/docs/v3/documentation/features/advanced/file-uploads.md): Upload PDFs, text files, and JSON documents to create messages in Honcho
+- [Advanced Features](https://honcho.dev/docs/v3/documentation/features/advanced/overview.md): Advanced configuration and monitoring options for Honcho
+- [Peer Card](https://honcho.dev/docs/v3/documentation/features/advanced/peer-card.md): A quick-reference profile of stable biographical facts about a peer
+- [Queue Status](https://honcho.dev/docs/v3/documentation/features/advanced/queue-status.md): Learn how to check the status of Honcho's reasoning
+- [Reasoning Configuration](https://honcho.dev/docs/v3/documentation/features/advanced/reasoning-configuration.md): Customize how Honcho reasons over peers, sessions, and messages
+- [Representation Scopes](https://honcho.dev/docs/v3/documentation/features/advanced/representation-scopes.md): Advanced configuration and querying for representations
+- [Search](https://honcho.dev/docs/v3/documentation/features/advanced/search.md): Learn how to search across workspaces, sessions, and peers to find relevant conversations and content
+- [Streaming Responses](https://honcho.dev/docs/v3/documentation/features/advanced/streaming-response.md): Using streaming responses with Honcho SDKs
+- [Summarizer](https://honcho.dev/docs/v3/documentation/features/advanced/summarizer.md): How Honcho creates summaries of conversations
+- [Using Filters](https://honcho.dev/docs/v3/documentation/features/advanced/using-filters.md): Learn how to filter workspaces, peers, sessions, and messages using Honcho's powerful filtering system
+- [Chat Endpoint](https://honcho.dev/docs/v3/documentation/features/chat.md): An endpoint for reasoning about your users
+- [Get Context](https://honcho.dev/docs/v3/documentation/features/get-context.md): Learn how to use context() to retrieve and format conversation context for LLM integration
+- [Storing Data](https://honcho.dev/docs/v3/documentation/features/storing-data.md): Store Data in Honcho to Generate Memories and Insights
+- [Honcho Overview](https://honcho.dev/docs/v3/documentation/introduction/overview.md)
+- [Quickstart](https://honcho.dev/docs/v3/documentation/introduction/quickstart.md)
+- [Agentic Development](https://honcho.dev/docs/v3/documentation/introduction/vibecoding.md): Agent skills, MCP server, and tools for building with Honcho
+- [CLI Reference](https://honcho.dev/docs/v3/documentation/reference/cli.md): Command-line interface for Honcho — inspect workspaces, peers, sessions, and memory from your terminal
+- [The Honcho Dashboard](https://honcho.dev/docs/v3/documentation/reference/platform.md): Build stateful agents without worrying about infrastructure
+- [SDK Reference](https://honcho.dev/docs/v3/documentation/reference/sdk.md): Complete SDK documentation and examples for Python and TypeScript
+- [Agent Zero](https://honcho.dev/docs/v3/guides/community/agent0.md): Add AI-native memory to Agent Zero
+- [Pi](https://honcho.dev/docs/v3/guides/community/pi-honcho-memory.md): Persistent memory extension for the pi coding agent
+- [Discord Bots with Honcho](https://honcho.dev/docs/v3/guides/discord.md): Use Honcho to build a Discord bot with conversational memory and context management.
+- [Gmail](https://honcho.dev/docs/v3/guides/gmail.md): Load Gmail threads into Honcho to give your AI agents memory of email conversations.
+- [Granola](https://honcho.dev/docs/v3/guides/granola.md): Import meeting notes and transcripts from Granola into Honcho
+- [Claude Code](https://honcho.dev/docs/v3/guides/integrations/claude-code.md): Add AI-native memory to Claude Code
+- [CrewAI](https://honcho.dev/docs/v3/guides/integrations/crewai.md): Build AI agents with persistent memory using CrewAI and Honcho
+- [Hermes Agent + Honcho](https://honcho.dev/docs/v3/guides/integrations/hermes.md): How Hermes Agent uses Honcho for persistent cross-session memory and user modeling
+- [LangGraph](https://honcho.dev/docs/v3/guides/integrations/langgraph.md): Build a stateful conversational AI agent with LangGraph and Honcho
+- [Model Context Protocol (MCP)](https://honcho.dev/docs/v3/guides/integrations/mcp.md): Give any AI tool persistent memory with the Honcho MCP server
+- [n8n](https://honcho.dev/docs/v3/guides/integrations/n8n.md): Connect Honcho to your n8n workflows to build intelligent automation workflows and agents that leverage persistent memory across sessions.
+- [OpenClaw](https://honcho.dev/docs/v3/guides/integrations/openclaw.md): Add AI-native memory to OpenClaw
+- [OpenCode](https://honcho.dev/docs/v3/guides/integrations/opencode.md): Add AI-native memory to OpenCode
+- [Paperclip](https://honcho.dev/docs/v3/guides/integrations/paperclip.md): Add Honcho memory to Paperclip
+- [Voice Agent - Reachy Mini](https://honcho.dev/docs/v3/guides/integrations/reachy-mini.md): Build an embodied voice AI agent with long-term memory using Honcho
+- [SillyTavern](https://honcho.dev/docs/v3/guides/integrations/sillytavern.md): Add persistent, personalized memory to SillyTavern AI characters with Honcho
+- [Vercel AI SDK](https://honcho.dev/docs/v3/guides/integrations/vercel-ai-sdk.md): Add persistent user memory and reasoning to any Vercel AI SDK app with Honcho
+- [Zo Computer](https://honcho.dev/docs/v3/guides/integrations/zo-computer.md): Add persistent memory to Zo Computer skills using Honcho
+- [Migrating from Mem0](https://honcho.dev/docs/v3/guides/migrations/mem0.md): A guide to migrate from Mem0 to Honcho
+- [Guides, Cookbooks, and Integrations](https://honcho.dev/docs/v3/guides/overview.md): Helpful guides and design patterns for building with Honcho
+- [Unified Memory Setup](https://honcho.dev/docs/v3/guides/recipes/unified-memory-setup.md): Wire one shared Honcho workspace across a chat companion, a coding agent, an autonomous agent, and a scheduled ingestion job
+- [Telegram Bots with Honcho](https://honcho.dev/docs/v3/guides/telegram.md): Use Honcho to build a Telegram bot with conversational memory and context management.
+
+## OpenAPI Specs
+
+- [openapi](https://honcho.dev/docs/v3/openapi.json)
