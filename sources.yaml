@@ -86,3 +86,43 @@ sources:
 # Lane 3 (doc-to-MD converter / tavily-crawl residue) entries are added as the
 # llms.txt probe (INT-118 lane 2 child issue) identifies which vendors have
 # neither a docs repo nor an llms.txt endpoint.
+
+  - name: docker
+    lane: 3
+    method: tavily-crawl
+    upstream: https://docs.docker.com
+    folder: docker/
+    refresh: "curl https://docs.docker.com/ | pandoc -f html -t markdown > docker/engine.md; curl https://docs.docker.com/compose/ | pandoc -f html -t markdown > docker/compose.md"
+    status: pulled
+
+  - name: tailscale
+    lane: 3
+    method: tavily-crawl
+    upstream: https://tailscale.com/kb/
+    folder: tailscale/
+    refresh: "curl https://tailscale.com/kb/ | pandoc -f html -t markdown > tailscale/kb.md"
+    status: pulled
+
+  - name: netbox
+    lane: 3
+    method: tavily-crawl
+    upstream: https://docs.netbox.dev/
+    folder: netbox/
+    refresh: "curl https://docs.netbox.dev/ | pandoc -f html -t markdown > netbox/docs.md"
+    status: pulled
+
+  - name: openai
+    lane: 3
+    method: tavily-crawl
+    upstream: https://platform.openai.com/docs/
+    folder: openai/
+    refresh: "curl https://platform.openai.com/docs/ | pandoc -f html -t markdown > openai/docs.md"
+    status: pulled
+
+  - name: google-cloud
+    lane: 3
+    method: tavily-crawl
+    upstream: https://cloud.google.com/docs
+    folder: google-cloud/
+    refresh: "curl https://cloud.google.com/docs | pandoc -f html -t markdown > google-cloud/docs.md"
+    status: pulled
