@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rocky Brain Tool Review",
+  "type": "object",
+  "required": ["id", "agent", "tool", "project", "success", "result_summary", "completed_at"],
+  "properties": {
+    "id": {"type": "string"},
+    "checkout_id": {"type": ["string", "null"]},
+    "agent": {"type": "string"},
+    "tool": {"type": "string"},
+    "project": {"type": "string"},
+    "success": {"type": "boolean"},
+    "duration_seconds": {"type": ["number", "null"]},
+    "result_summary": {"type": "string"},
+    "error": {"type": ["string", "null"]},
+    "workaround": {"type": ["string", "null"]},
+    "source_refs": {"type": "array", "items": {"type": "string"}},
+    "confidence": {"enum": ["low", "medium", "high"]},
+    "recommendation": {"type": ["string", "null"]},
+    "should_update_skill": {"type": "boolean"},
+    "should_add_eval": {"type": "boolean"},
+    "completed_at": {"type": "string"}
+  }
+}

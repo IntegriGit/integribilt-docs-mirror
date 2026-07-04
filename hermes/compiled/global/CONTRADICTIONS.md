@@ -1,0 +1,23 @@
+# Global Contradictions Queue
+
+Contradictions are tracked here instead of silently resolved.
+
+## Format
+
+```markdown
+## CONTRA-YYYYMMDD-NNN — Short title
+- Status: open | investigating | resolved | rejected
+- Scope: global | project:<name>
+- Claim A: ...
+- Source A: ...
+- Claim B: ...
+- Source B: ...
+- Conflict: ...
+- Action needed: ...
+- Owner: ...
+- Updated: YYYY-MM-DD
+```
+
+## Open Contradictions
+
+_None registered yet._

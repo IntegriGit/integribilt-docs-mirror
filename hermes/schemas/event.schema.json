@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rocky Brain Event",
+  "type": "object",
+  "required": ["id", "source", "timestamp", "type", "content_hash", "summary", "confidence", "security_scope"],
+  "properties": {
+    "id": {"type": "string"},
+    "source": {"type": "string"},
+    "agent": {"type": ["string", "null"]},
+    "workspace": {"type": ["string", "null"]},
+    "project": {"type": ["string", "null"]},
+    "timestamp": {"type": "string"},
+    "type": {"type": "string"},
+    "content_hash": {"type": "string"},
+    "raw_uri": {"type": ["string", "null"]},
+    "summary": {"type": "string"},
+    "entities": {"type": "array", "items": {"type": "string"}},
+    "claims": {"type": "array"},
+    "relationships": {"type": "array"},
+    "confidence": {"enum": ["low", "medium", "high"]},
+    "security_scope": {"type": "string"}
+  }
+}

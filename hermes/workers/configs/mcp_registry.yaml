@@ -1,0 +1,24 @@
+mcp_servers:
+  - name: antigravity-proxy
+    product: Antigravity Storage Manager
+    vscode_extension: unchase.antigravity-storage-manager-0.14.3
+    owner_agent: unknown
+    scope: global
+    gateway: MCP Toolkit
+    transport: stdio
+    command_or_url: 'node "C:/Users/lmiller.INTEGRIBILT/.vscode/extensions/unchase.antigravity-storage-manager-0.14.3/dist/mcp/proxyMcpServer.js"'
+    env:
+      PROXY_PORT: '8317'
+    config_path: unknown
+    log_paths:
+      - 'C:/Users/lmiller.INTEGRIBILT/AppData/Roaming/Claude/logs/mcp-server-antigravity-proxy.log'
+    client_log_note: 'ASM logs are exposed via MCP protocol; the listed file is Claude Desktop per-server log. Other clients write equivalent logs under their own logs directory using the same server name.'
+    health_check: unknown
+    last_checked_at: null
+    known_issues:
+      - 'Need exact MCP Toolkit registration/health check and logs for non-Claude clients.'
+
+rules:
+  - 'Each agent checks MCP server logs for MCP servers it uses.'
+  - 'Each agent corrects MCP server issues when safe.'
+  - 'Non-trivial MCP issues get a tool checkin/review.'

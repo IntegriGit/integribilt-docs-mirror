@@ -1,0 +1,54 @@
+questions:
+  - id: integribilt_ch11_brief_location
+    question: "Where is the current Chapter 11 intelligence brief?"
+    expected_contains:
+      - "E:/projects/shared-workspace/spruce/_rocky_extract/ROCKY_CH11_INTELLIGENCE_BRIEF.md"
+    required_sources: true
+
+  - id: google_drive_blocker
+    question: "What currently blocks Rocky from directly accessing Google Drive?"
+    expected_contains:
+      - "Google Workspace"
+      - "google_token.json"
+    required_sources: true
+
+  - id: rocky_phone_boundary
+    question: "What should Rocky not do during calls with Lester's wife?"
+    expected_contains:
+      - "not flirt"
+    required_sources: false
+
+  - id: appraisal_reported_components
+    question: "What did Lester report the foreclosure appraisal included?"
+    expected_contains:
+      - "property"
+      - "$1.4M equipment"
+      - "$1M inventory"
+    required_sources: true
+
+  - id: source_truth_ladder
+    question: "What is the source-of-truth ladder for agents?"
+    expected_contains:
+      - "Direct current user instruction"
+      - "Canonical compiled markdown"
+      - "Verified source documents"
+    required_sources: false
+
+  - id: fraud_language_policy
+    question: "How should agents handle fraud claims in IntegriBilt reports?"
+    expected_contains:
+      - "do not state fraud as fact"
+      - "evidence"
+    required_sources: true
+
+  - id: five_acres_policy
+    question: "What acreage language should agents avoid?"
+    expected_contains:
+      - "Do not say 5 acres"
+    required_sources: true
+
+  - id: property_value_report_location
+    question: "Where is the Rocky property valuation report?"
+    expected_contains:
+      - "E:/projects/shared-workspace/spruce/_rocky_extract/PROPERTY_VALUE_REPORT_Commerce_Dr_vs_1500_Sam_Steward.md"
+    required_sources: true
