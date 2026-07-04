@@ -1,0 +1,208 @@
+> For clean Markdown of any page, append .md to the page URL.
+> For a complete documentation index, see https://help.getzep.com/v3/llms.txt.
+> For AI client integration (Claude Code, Cursor, etc.), connect to the MCP server at https://help.getzep.com/v3/_mcp/server.
+
+# Welcome to Zep!
+
+> Zep delivers agent memory at enterprise scale — a governed Context Lake of temporal knowledge graphs, served in under 200ms. Add memory in three lines of code.
+
+Connect your <strong>coding agent</strong> to Zep's docs with the [MCP server](/docs-mcp-server).
+
+Zep delivers agent memory at enterprise scale: memory of your users, your business, and the work your agents do. From any source — chat, business data, documents, JSON — Zep builds a temporal knowledge graph (its Context Graph), then serves token-efficient, prompt-ready context from a governed Context Lake with sub-200ms retrieval. The result is reliable, personalized agents with fewer hallucinations and higher accuracy.
+
+Learn about Zep's agent memory, temporal Context Graphs, and the Context Lake that serves them.
+
+Get up and running with Zep in minutes, whether you code in Python, TypeScript, or Go.
+
+Discover practical recipes and patterns for common use cases with Zep.
+
+Comprehensive API documentation for Zep's SDKs in Python, TypeScript, and Go.
+
+Migrate from Mem0 to Zep in minutes.
+
+Learn about Graphiti, Zep's open-source temporal knowledge graph framework — the engine that powers Zep's agent memory.
+
+> Agent memory at enterprise scale. Zep gives your agents memory of users, the business, and work done — served in under 200ms.
+
+## Docs
+
+- [Key Concepts](https://help.getzep.com/concepts.md): Core Zep concepts: agent memory, temporal knowledge graphs, the Context Lake, Context Blocks, facts, and Observations — the primitives behind reliable agents.
+- [Architecture patterns](https://help.getzep.com/architecture-patterns.md): Choose the right Zep architecture by deciding across scope, ingestion, and retrieval axes.
+- [What is context engineering?](https://help.getzep.com/what-is-context-engineering.md): Context engineering assembles the right information around an LLM for reliable agents. Zep does it with temporal knowledge graphs and Smart Context Assembly.
+- [Retrieval philosophy](https://help.getzep.com/retrieval-philosophy.md): Zep optimizes retrieval for high recall and low latency — sub-200ms Context Graph retrieval that gives agents complete context for reliable decisions.
+- [Users and User Graphs](https://help.getzep.com/users-and-user-graphs.md): Understanding user management and knowledge graph integration in Zep
+- [Threads](https://help.getzep.com/threads.md): Understanding conversation threading in Zep
+- [Graph Overview](https://help.getzep.com/graph-overview.md)
+- [Zep vs Graph RAG](https://help.getzep.com/zep-vs-graph-rag.md): How Zep compares to GraphRAG. GraphRAG suits static documents; Zep handles dynamic, streaming data with bi-temporal facts and sub-200ms hybrid retrieval.
+- [Quick Start Guide](https://help.getzep.com/quick-start-guide.md): Add agent memory to your app in three lines of code. This Zep quick start covers users, threads, ingesting data, and retrieving a Context Block in under 200ms.
+- [Evaluate Zep for Your Use Case](https://help.getzep.com/evaluate-zep-for-your-use-case.md): Run end-to-end context evaluations using Zep's evaluation framework
+- [Documentation MCP server](https://help.getzep.com/docs-mcp-server.md): Give coding agents real-time access to Zep's documentation.
+- [llms.txt](https://help.getzep.com/llms-txt.md): Standardized documentation files for coding agents.
+- [zepctl CLI Reference](https://help.getzep.com/docs/developer-tools/zepctl-cli.md): Command-line interface for administering Zep projects
+- [Debugging](https://help.getzep.com/debugging.md): Debug Zep ingestion and retrieval using debug logs from the Zep dashboard and episode lists, with detailed per-episode processing output.
+- [Memory MCP Server](https://help.getzep.com/memory-mcp-server.md): Let your users' off-the-shelf agents work with the same memory as the agents you build, secured by your enterprise identity provider.
+- [Configuring authentication](https://help.getzep.com/memory-mcp-server/authentication.md): Connect a project's Memory MCP Server to your enterprise identity provider.
+- [Connecting a client](https://help.getzep.com/memory-mcp-server/connect.md): Connect an MCP client to your own Zep memory and sign in through your organization's identity provider.
+- [Overview](https://help.getzep.com/adding-context.md): Add data to Zep from any source — chat messages, business data, documents, and JSON — and Zep builds the user's Context Graph automatically.
+- [Adding Messages](https://help.getzep.com/adding-messages.md): Learn how to add chat history and messages to Zep.
+- [Adding Business Data](https://help.getzep.com/adding-business-data.md): Add structured and unstructured business data directly to user graphs
+- [Batch ingestion](https://help.getzep.com/adding-batch-data.md): Load large historical datasets into Zep agent memory with the Batch API — backfill, migrate, and archive episodes and messages into your Context Graphs at scale.
+- [Overview](https://help.getzep.com/assembling-context.md): Assemble agent context from a user's Context Graph. Compare Zep's automatic Context Block, custom context templates, and advanced construction.
+- [Context types](https://help.getzep.com/context-types.md): The context types Zep produces from a Context Graph — facts, entities, episodes, thread summaries, observations, and the user summary — and when to use each.
+- [Facts](https://help.getzep.com/facts.md): Facts are precise, time-stamped relationships on a Context Graph. Bi-temporal valid_at/invalid_at timestamps let Zep track change and answer point-in-time queries.
+- [Entities](https://help.getzep.com/entities.md): The nouns Zep extracts from a graph, each with a name and an evolving narrative summary
+- [Episodes](https://help.getzep.com/episodes.md): Raw data artifacts ingested into a graph, retrievable verbatim
+- [Thread summaries](https://help.getzep.com/thread-summaries.md): Per-thread, incremental summaries of a conversation's messages
+- [Observations](https://help.getzep.com/observations.md): Observations are durable, evidence-backed patterns Zep derives from a Context Graph — recurring loops, preferences, commitments, and state transitions across many facts.
+- [User summary](https://help.getzep.com/user-summary.md): An always-on baseline picture of who the user is
+- [Episode metadata projection](https://help.getzep.com/episode-metadata-projection.md): How episodes associate with the facts, entities, observations, thread summaries, and user summary derived from them, and how episode metadata projects onto those artifacts for filtering.
+- [Retrieving Context](https://help.getzep.com/retrieving-context.md): Retrieve a token-efficient, prompt-ready Context Block from a user's Context Graph. Smart Context Assembly selects the most relevant facts and Observations in under 200ms.
+- [Context templates](https://help.getzep.com/context-templates.md): Create reusable context templates to shape the format and contents of your Zep Context Block while keeping automatic relevance detection.
+- [Advanced Context Block construction](https://help.getzep.com/advanced-context-block-construction.md)
+- [Overview](https://help.getzep.com/customizing-context.md): How Zep builds context from your data
+- [Customizing Graph Structure](https://help.getzep.com/customizing-graph-structure.md): Define custom entity and edge types so Zep extracts the entities and relationships that matter for your domain — a domain ontology for precise context recall.
+- [Custom instructions](https://help.getzep.com/custom-instructions.md): Describe your domain so Zep can better understand your data
+- [User Summary Instructions](https://help.getzep.com/user-summary-instructions.md): Customize how Zep generates entity summaries for users in their Context Graph
+- [Create Graph](https://help.getzep.com/create-graph.md): Create standalone graphs for advanced use cases
+- [Searching the Graph](https://help.getzep.com/searching-the-graph.md)
+- [Reading Data from the Graph](https://help.getzep.com/reading-data-from-the-graph.md)
+- [Deleting Data from the Graph](https://help.getzep.com/deleting-data-from-the-graph.md)
+- [Cloning Graphs](https://help.getzep.com/cloning-graphs.md): Create complete copies of graphs with new identifiers for testing, migration, or templating
+- [Adding Fact Triplets](https://help.getzep.com/adding-fact-triplets.md): Manually specify fact/node triplets to add structured relationships to your graph
+- [Detecting Patterns](https://help.getzep.com/detecting-patterns.md): Analyze the structure of a knowledge graph to discover recurring relationship patterns, paths, hubs, and clusters
+- [Chunking Large Documents with Contextualized Retrieval](https://help.getzep.com/chunking-large-documents.md): Ingest documents larger than 10,000 characters using semantic chunking and LLM-powered contextualization
+- [Check Data Ingestion Status](https://help.getzep.com/check-data-ingestion-status.md)
+- [Give Your Agent Domain Knowledge](https://help.getzep.com/give-your-agent-domain-knowledge.md): Provide your agent with searchable knowledge graphs built from your data
+- [Share context across users using graphs](https://help.getzep.com/how-to-share-context-across-users-using-graphs.md)
+- [Add User Specific Business Data to User Graphs](https://help.getzep.com/how-to-add-user-specific-business-data-to-user-graphs.md)
+- [Get Most Relevant Facts for an Arbitrary Query](https://help.getzep.com/how-to-get-most-relevant-facts-for-an-arbitrary-query.md)
+- [Find Facts Relevant to a Specific Node](https://help.getzep.com/how-to-find-facts-relevant-to-a-specific-node.md)
+- [Performance Optimization Guide](https://help.getzep.com/performance.md): Best practices for optimizing Zep performance in production
+- [Adding JSON best practices](https://help.getzep.com/adding-json-best-practices.md): Best practices for preparing JSON data for ingestion into Zep
+- [Security & Compliance](https://help.getzep.com/security-compliance.md): Zep's enterprise security and governance: SOC 2 Type II, HIPAA BAA, role-based access control, audit and API logs, BYOK, and BYOC. Governance lives in the substrate.
+- [Role-Based Access Control](https://help.getzep.com/role-based-access-control.md)
+- [Attribute-Based Access Control](https://help.getzep.com/attribute-based-access-control.md): Scope what each API key may do and which data it may access within a project.
+- [Audit logging](https://help.getzep.com/audit-logging.md): Track and monitor account activity with enterprise audit logging
+- [API logging](https://help.getzep.com/api-logging.md): View SDK and API key usage logs for your account
+- [HIPAA compliance](https://help.getzep.com/hipaa-compliance.md): Guidelines for using Zep in HIPAA-compliant applications
+- [Bring Your Own Key (BYOK)](https://help.getzep.com/bring-your-own-key.md)
+- [Bring Your Own LLM (BYOM)](https://help.getzep.com/bring-your-own-llm.md)
+- [Webhooks](https://help.getzep.com/webhooks.md): Receive real-time notifications when events occur in Zep
+- [Rate limits](https://help.getzep.com/rate-limits.md): How the Zep API limits request rates and how to handle them
+- [LangGraph integration](https://help.getzep.com/langgraph-memory.md): Add durable, cross-session memory to LangGraph agents
+- [AutoGen integration](https://help.getzep.com/autogen-memory.md): Add long-term agent memory to AutoGen agents
+- [LiveKit integration](https://help.getzep.com/livekit-memory.md): Add long-term agent memory to LiveKit voice agents
+- [ElevenLabs Agents](https://help.getzep.com/elevenlabs.md): Add persistent context to ElevenLabs voice agents using a custom LLM proxy.
+- [CrewAI integration](https://help.getzep.com/crewai-memory.md): Add long-term agent memory and knowledge graphs to CrewAI agents
+- [NVIDIA NeMo Agent Toolkit](https://help.getzep.com/nvidia-nemo.md): Use Zep for automatic memory in NVIDIA NeMo Agent Toolkit agents.
+- [Google ADK integration](https://help.getzep.com/google-adk-memory.md): Add persistent context and knowledge graphs to Google ADK agents
+- [AG2 integration](https://help.getzep.com/ag2-memory.md): Add persistent agent memory and knowledge graphs to AG2 agents
+- [Microsoft Agent Framework integration](https://help.getzep.com/microsoft-agent-framework-memory.md): Add long-term agent memory to Microsoft Agent Framework agents
+- [Pydantic AI integration](https://help.getzep.com/pydantic-ai-memory.md): Add long-term agent memory to Pydantic AI agents
+- [Mastra integration](https://help.getzep.com/mastra-memory.md): Add long-term agent memory to Mastra agents with Zep tools
+- [Vercel AI SDK integration](https://help.getzep.com/vercel-ai-memory.md): Add long-term agent memory to Vercel AI SDK applications
+- [February 2026 deprecation wave](https://help.getzep.com/february-2026-deprecation-wave.md): Guide to the February 2026 deprecation wave
+- [Mem0 Migration](https://help.getzep.com/mem0-to-zep.md): How to migrate from Mem0 to Zep
+- [FAQ](https://help.getzep.com/faq.md): Answers about Zep agent memory: multi-tenancy and isolation, scaling to millions of users, self-hosting and BYOC, Graphiti, sub-200ms retrieval, and pricing.
+- [Zep vs Graphiti](https://help.getzep.com/zep-vs-graphiti.md): Graphiti is the open-source temporal knowledge graph framework that powers Zep. Zep is agent memory at enterprise scale — a governed Context Lake served in under 200ms.
+- [Welcome to Graphiti!](https://help.getzep.com/graphiti/getting-started/welcome.md): Graphiti is Zep's open-source framework for temporal knowledge graphs — Context Graphs — for AI agents, with real-time updates and hybrid retrieval.
+- [Overview](https://help.getzep.com/graphiti/getting-started/overview.md): Graphiti builds temporal knowledge graphs — Context Graphs — for AI agents, fusing semantic, full-text, and graph search over evolving entities, facts, and relationships.
+- [Quick Start](https://help.getzep.com/graphiti/getting-started/quick-start.md): Getting started with Graphiti
+- [Graphiti MCP Server](https://help.getzep.com/graphiti/getting-started/mcp-server.md): Connect Graphiti's Context Graphs to Claude, Cursor, and other MCP clients via the Graphiti MCP server.
+- [LLM Configuration](https://help.getzep.com/graphiti/configuration/llm-configuration.md): Configure Graphiti with different LLM providers
+- [Neo4j Configuration](https://help.getzep.com/graphiti/configuration/neo-4-j-configuration.md): Configure Neo4j as the graph provider for Graphiti
+- [FalkorDB Configuration](https://help.getzep.com/graphiti/configuration/falkor-db-configuration.md): Configure FalkorDB as the graph provider for Graphiti
+- [AWS Neptune Configuration](https://help.getzep.com/graphiti/configuration/aws-neptune-configuration.md): Configure Amazon Neptune as the graph provider for Graphiti
+- [Kuzu DB Configuration](https://help.getzep.com/graphiti/configuration/kuzu-db-configuration.md): Configure Kuzu as the graph provider for Graphiti
+- [Adding Episodes](https://help.getzep.com/graphiti/core-concepts/adding-episodes.md): How to add data to your Graphiti graph
+- [Custom Entity and Edge Types](https://help.getzep.com/graphiti/core-concepts/custom-entity-and-edge-types.md): Enhancing Graphiti with Custom Ontologies
+- [Communities](https://help.getzep.com/graphiti/core-concepts/communities.md): How to create and update communities
+- [Graph Namespacing](https://help.getzep.com/graphiti/core-concepts/graph-namespacing.md): Using group_ids to create isolated graph namespaces
+- [Searching the Graph](https://help.getzep.com/graphiti/working-with-data/searching.md): How to retrieve information from your Graphiti graph
+- [CRUD Operations](https://help.getzep.com/graphiti/working-with-data/crud-operations.md): How to access and modify Nodes and Edges
+- [Adding Fact Triples](https://help.getzep.com/graphiti/working-with-data/adding-fact-triples.md): How to add fact triples to your Graphiti graph
+- [Using LangGraph and Graphiti](https://help.getzep.com/graphiti/integrations/lang-graph-agent.md): Building an agent with LangChain's LangGraph and Graphiti
+- [Telemetry](https://help.getzep.com/graphiti/other/telemetry.md): Anonymous usage statistics Graphiti collects, and how to opt out
+
+## API Docs
+
+- SDK Reference > Thread [Get threads](https://help.getzep.com/sdk-reference/thread/get-threads.md)
+- SDK Reference > Thread [Start a new thread.](https://help.getzep.com/sdk-reference/thread/start-a-new-thread.md)
+- SDK Reference > Thread [Delete thread](https://help.getzep.com/sdk-reference/thread/delete-thread.md)
+- SDK Reference > Thread [Get user context](https://help.getzep.com/sdk-reference/thread/get-user-context.md)
+- SDK Reference > Thread [Get messages of a thread](https://help.getzep.com/sdk-reference/thread/get-messages-of-a-thread.md)
+- SDK Reference > Thread [Add messages to a thread](https://help.getzep.com/sdk-reference/thread/add-messages-to-a-thread.md)
+- SDK Reference > Thread [Add messages to a thread in batch](https://help.getzep.com/sdk-reference/thread/add-messages-to-a-thread-in-batch.md)
+- SDK Reference > Thread [Get thread summary](https://help.getzep.com/sdk-reference/thread/get-thread-summary.md)
+- SDK Reference > Thread > Message [Updates a message.](https://help.getzep.com/sdk-reference/thread/message/updates-a-message.md)
+- SDK Reference > User [Add User](https://help.getzep.com/sdk-reference/user/add.md)
+- SDK Reference > User [Get Users](https://help.getzep.com/sdk-reference/user/list-ordered.md)
+- SDK Reference > User [Get User](https://help.getzep.com/sdk-reference/user/get.md)
+- SDK Reference > User [Delete User](https://help.getzep.com/sdk-reference/user/delete.md)
+- SDK Reference > User [Update User](https://help.getzep.com/sdk-reference/user/update.md)
+- SDK Reference > User [Get User Node](https://help.getzep.com/sdk-reference/user/get-user-node.md)
+- SDK Reference > User [Get User Threads](https://help.getzep.com/sdk-reference/user/get-user-threads.md)
+- SDK Reference > User [Warm User Cache](https://help.getzep.com/sdk-reference/user/warm-user-cache.md)
+- SDK Reference > User [List User Instructions](https://help.getzep.com/sdk-reference/user/list-user-instructions.md)
+- SDK Reference > User [Add User Instructions](https://help.getzep.com/sdk-reference/user/add-user-instructions.md)
+- SDK Reference > User [Delete User Instructions](https://help.getzep.com/sdk-reference/user/delete-user-instructions.md)
+- SDK Reference > Context [Create Context Template](https://help.getzep.com/sdk-reference/context/create-context-template.md)
+- SDK Reference > Context [Get Context Template](https://help.getzep.com/sdk-reference/context/get-context-template.md)
+- SDK Reference > Context [Update Context Template](https://help.getzep.com/sdk-reference/context/update-context-template.md)
+- SDK Reference > Context [List Context Templates](https://help.getzep.com/sdk-reference/context/list-context-templates.md)
+- SDK Reference > Context [Delete Context Template](https://help.getzep.com/sdk-reference/context/delete-context-template.md)
+- SDK Reference > Graph [Set graph ontology](https://help.getzep.com/sdk-reference/graph/set-ontology.md)
+- SDK Reference > Graph [List graph ontology](https://help.getzep.com/sdk-reference/graph/list-ontology.md)
+- SDK Reference > Graph [Add Data](https://help.getzep.com/sdk-reference/graph/add-data.md)
+- SDK Reference > Graph [Add Data in batch mode](https://help.getzep.com/sdk-reference/graph/add-data-in-batch-mode.md)
+- SDK Reference > Graph [Add Fact Triple](https://help.getzep.com/sdk-reference/graph/add-fact-triple.md)
+- SDK Reference > Graph [Clone graph](https://help.getzep.com/sdk-reference/graph/clone-graph.md)
+- SDK Reference > Graph [Create Graph](https://help.getzep.com/sdk-reference/graph/create-graph.md)
+- SDK Reference > Graph [List all graphs.](https://help.getzep.com/sdk-reference/graph/list-all-graphs.md)
+- SDK Reference > Graph [Detect Patterns (Experimental)](https://help.getzep.com/sdk-reference/graph/detect-patterns-experimental.md)
+- SDK Reference > Graph [Search Graph](https://help.getzep.com/sdk-reference/graph/search.md)
+- SDK Reference > Graph [Get Graph](https://help.getzep.com/sdk-reference/graph/get-graph.md)
+- SDK Reference > Graph [Delete Graph](https://help.getzep.com/sdk-reference/graph/delete-graph.md)
+- SDK Reference > Graph [Update Graph.](https://help.getzep.com/sdk-reference/graph/update-graph.md)
+- SDK Reference > Graph [Warm Graph Cache](https://help.getzep.com/sdk-reference/graph/warm-graph-cache.md)
+- SDK Reference > Graph > Edge [Get Graph Edges](https://help.getzep.com/sdk-reference/graph/edge/get-graph-edges.md)
+- SDK Reference > Graph > Edge [Get User Edges](https://help.getzep.com/sdk-reference/graph/edge/get-user-edges.md)
+- SDK Reference > Graph > Edge [Get Edge](https://help.getzep.com/sdk-reference/graph/edge/get-edge.md)
+- SDK Reference > Graph > Edge [Update Edge](https://help.getzep.com/sdk-reference/graph/edge/update-edge.md)
+- SDK Reference > Graph > Edge [Delete Edge](https://help.getzep.com/sdk-reference/graph/edge/delete-edge.md)
+- SDK Reference > Graph > Episode [Get Graph Episodes](https://help.getzep.com/sdk-reference/graph/episode/get-graph-episodes.md)
+- SDK Reference > Graph > Episode [Get User Episodes](https://help.getzep.com/sdk-reference/graph/episode/get-user-episodes.md)
+- SDK Reference > Graph > Episode [Get Episode](https://help.getzep.com/sdk-reference/graph/episode/get-episode.md)
+- SDK Reference > Graph > Episode [Update Episode Metadata](https://help.getzep.com/sdk-reference/graph/episode/update-episode-metadata.md)
+- SDK Reference > Graph > Episode [Delete Episode](https://help.getzep.com/sdk-reference/graph/episode/delete-episode.md)
+- SDK Reference > Graph > Episode [Return any nodes and edges mentioned in an episode](https://help.getzep.com/sdk-reference/graph/episode/return-any-nodes-and-edges-mentioned-in-an-episode.md)
+- SDK Reference > Graph > Node [Get Graph Nodes](https://help.getzep.com/sdk-reference/graph/node/get-graph-nodes.md)
+- SDK Reference > Graph > Node [Get User Nodes](https://help.getzep.com/sdk-reference/graph/node/get-user-nodes.md)
+- SDK Reference > Graph > Node [Get Entity Edges for a node](https://help.getzep.com/sdk-reference/graph/node/get-entity-edges-for-a-node.md)
+- SDK Reference > Graph > Node [Get Episodes for a node](https://help.getzep.com/sdk-reference/graph/node/get-episodes-for-a-node.md)
+- SDK Reference > Graph > Node [Get Node](https://help.getzep.com/sdk-reference/graph/node/get-node.md)
+- SDK Reference > Graph > Node [Update Node](https://help.getzep.com/sdk-reference/graph/node/update-node.md)
+- SDK Reference > Graph > Node [Delete Node](https://help.getzep.com/sdk-reference/graph/node/delete-node.md)
+- SDK Reference > Graph > Custom Instructions [List Custom Instructions](https://help.getzep.com/sdk-reference/graph/custom-instructions/list-custom-instructions.md)
+- SDK Reference > Graph > Custom Instructions [Add Custom Instructions](https://help.getzep.com/sdk-reference/graph/custom-instructions/add-custom-instructions.md)
+- SDK Reference > Graph > Custom Instructions [Delete Custom Instructions](https://help.getzep.com/sdk-reference/graph/custom-instructions/delete-custom-instructions.md)
+- SDK Reference > Graph > Observations [Get Graph Observations](https://help.getzep.com/sdk-reference/graph/observations/get-graph-observations.md)
+- SDK Reference > Graph > Observations [Get User Observations](https://help.getzep.com/sdk-reference/graph/observations/get-user-observations.md)
+- SDK Reference > Graph > Observations [Get Observation](https://help.getzep.com/sdk-reference/graph/observations/get-observation.md)
+- SDK Reference > Graph > Thread Summaries [Get Graph Thread Summaries](https://help.getzep.com/sdk-reference/graph/thread-summaries/get-graph-thread-summaries.md)
+- SDK Reference > Graph > Thread Summaries [Get User Thread Summaries](https://help.getzep.com/sdk-reference/graph/thread-summaries/get-user-thread-summaries.md)
+- SDK Reference > Project [Retrieves project information](https://help.getzep.com/sdk-reference/project/retrieves-project-information.md)
+- SDK Reference > Task [Get Task](https://help.getzep.com/sdk-reference/task/get-task.md)
+- SDK Reference > Batch [Create Batch](https://help.getzep.com/sdk-reference/batch/create-batch.md)
+- SDK Reference > Batch [Add Batch Items](https://help.getzep.com/sdk-reference/batch/add-batch-items.md)
+- SDK Reference > Batch [Process Batch](https://help.getzep.com/sdk-reference/batch/process-batch.md)
+- SDK Reference > Batch [List Batches](https://help.getzep.com/sdk-reference/batch/list-batches.md)
+- SDK Reference > Batch [Get Batch](https://help.getzep.com/sdk-reference/batch/get-batch.md)
+- SDK Reference > Batch [Delete Batch](https://help.getzep.com/sdk-reference/batch/delete-batch.md)
+- SDK Reference > Batch [List Batch Items](https://help.getzep.com/sdk-reference/batch/list-batch-items.md)
+
+## OpenAPI Specification
+
+The raw OpenAPI 3.1 specification for this API is available at:
+- [OpenAPI JSON](https://help.getzep.com/openapi.json)
+- [OpenAPI YAML](https://help.getzep.com/openapi.yaml)
