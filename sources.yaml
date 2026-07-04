@@ -9,7 +9,7 @@ sources:
     upstream: local clone E:\clones\paperclip (docs/ + doc/ + AGENTS.md)
     folder: paperclip/
     refresh: git -C E:\clones\paperclip pull, then copy docs/ doc/ AGENTS.md
-    status: planned
+    status: pulled
 
   - name: litellm
     lane: 1
@@ -49,7 +49,7 @@ sources:
     upstream: https://github.com/openai/codex (docs/)
     folder: codex/
     refresh: shallow clone/pull, copy docs/
-    status: planned
+    status: pulled
 
   - name: hermes
     lane: 1
@@ -65,7 +65,7 @@ sources:
     upstream: anthropics docs repos + CHANGELOG.md in https://github.com/anthropics/claude-code
     folder: claude-code/
     refresh: shallow clone/pull, copy docs + changelog
-    status: planned
+    status: pulled
 
   - name: antigravity
     lane: 2
