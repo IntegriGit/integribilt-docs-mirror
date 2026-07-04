@@ -14,34 +14,54 @@ sources:
   - name: litellm
     lane: 1
     method: git-subtree-copy
-    upstream: https://github.com/BerriAI/litellm (docs/my-website/docs/)
+    upstream: https://github.com/BerriAI/litellm-docs (docs/)
     folder: litellm/
-    refresh: shallow clone/pull, copy docs/my-website/docs/
-    status: planned
+    refresh: >
+      git clone --depth 1 https://github.com/BerriAI/litellm-docs.git /tmp/_litellm-scratch &&
+      find /tmp/_litellm-scratch/docs -name '*.md' |
+      while read f; do rel="${f#/tmp/_litellm-scratch/docs/}";
+        mkdir -p "litellm/$(dirname "$rel")"; cp "$f" "litellm/$rel"; done &&
+      rm -rf /tmp/_litellm-scratch
+    status: pulled
 
   - name: langchain
     lane: 1
     method: git-subtree-copy
-    upstream: https://github.com/langchain-ai/langchain (docs dir)
+    upstream: https://github.com/langchain-ai/docs (src/oss/langchain/)
     folder: langchain/
-    refresh: shallow clone/pull, copy docs dir
-    status: planned
+    refresh: >
+      git clone --depth 1 https://github.com/langchain-ai/docs.git /tmp/_langchain-scratch &&
+      find /tmp/_langchain-scratch/src/oss/langchain -name '*.mdx' -o -name '*.md' |
+      while read f; do rel="${f#/tmp/_langchain-scratch/src/oss/langchain/}";
+        mkdir -p "langchain/$(dirname "$rel")"; cp "$f" "langchain/$rel"; done &&
+      rm -rf /tmp/_langchain-scratch
+    status: pulled
 
   - name: langgraph
     lane: 1
     method: git-subtree-copy
-    upstream: https://github.com/langchain-ai/langgraph (docs dir)
+    upstream: https://github.com/langchain-ai/docs (src/oss/langgraph/)
     folder: langgraph/
-    refresh: shallow clone/pull, copy docs dir
-    status: planned
+    refresh: >
+      git clone --depth 1 https://github.com/langchain-ai/docs.git /tmp/_langchain-scratch &&
+      find /tmp/_langchain-scratch/src/oss/langgraph -name '*.mdx' -o -name '*.md' |
+      while read f; do rel="${f#/tmp/_langchain-scratch/src/oss/langgraph/}";
+        mkdir -p "langgraph/$(dirname "$rel")"; cp "$f" "langgraph/$rel"; done &&
+      rm -rf /tmp/_langchain-scratch
+    status: pulled
 
   - name: langsmith
     lane: 1
     method: git-subtree-copy
-    upstream: langchain-ai LangSmith docs repo (verify exact repo; site publishes llms.txt as fallback)
+    upstream: https://github.com/langchain-ai/docs (src/langsmith/)
     folder: langsmith/
-    refresh: shallow clone/pull, copy docs dir
-    status: planned
+    refresh: >
+      git clone --depth 1 https://github.com/langchain-ai/docs.git /tmp/_langchain-scratch &&
+      find /tmp/_langchain-scratch/src/langsmith -name '*.mdx' -o -name '*.md' |
+      while read f; do rel="${f#/tmp/_langchain-scratch/src/langsmith/}";
+        mkdir -p "langsmith/$(dirname "$rel")"; cp "$f" "langsmith/$rel"; done &&
+      rm -rf /tmp/_langchain-scratch
+    status: pulled
 
   - name: codex
     lane: 1
