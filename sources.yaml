@@ -1,0 +1,88 @@
+# Authoritative manifest of mirrored sources.
+# Every top-level folder in this repo must have an entry here.
+# status: planned | pulled | refreshing (refreshing = nightly job covers it)
+
+sources:
+  - name: paperclip
+    lane: 1
+    method: git-subtree-copy
+    upstream: local clone E:\clones\paperclip (docs/ + doc/ + AGENTS.md)
+    folder: paperclip/
+    refresh: git -C E:\clones\paperclip pull, then copy docs/ doc/ AGENTS.md
+    status: planned
+
+  - name: litellm
+    lane: 1
+    method: git-subtree-copy
+    upstream: https://github.com/BerriAI/litellm (docs/my-website/docs/)
+    folder: litellm/
+    refresh: shallow clone/pull, copy docs/my-website/docs/
+    status: planned
+
+  - name: langchain
+    lane: 1
+    method: git-subtree-copy
+    upstream: https://github.com/langchain-ai/langchain (docs dir)
+    folder: langchain/
+    refresh: shallow clone/pull, copy docs dir
+    status: planned
+
+  - name: langgraph
+    lane: 1
+    method: git-subtree-copy
+    upstream: https://github.com/langchain-ai/langgraph (docs dir)
+    folder: langgraph/
+    refresh: shallow clone/pull, copy docs dir
+    status: planned
+
+  - name: langsmith
+    lane: 1
+    method: git-subtree-copy
+    upstream: langchain-ai LangSmith docs repo (verify exact repo; site publishes llms.txt as fallback)
+    folder: langsmith/
+    refresh: shallow clone/pull, copy docs dir
+    status: planned
+
+  - name: codex
+    lane: 1
+    method: git-subtree-copy
+    upstream: https://github.com/openai/codex (docs/)
+    folder: codex/
+    refresh: shallow clone/pull, copy docs/
+    status: planned
+
+  - name: hermes
+    lane: 1
+    method: git-subtree-copy
+    upstream: Hermes repo (clone it; not currently on disk - resolve exact URL during pull)
+    folder: hermes/
+    refresh: shallow clone/pull, copy docs
+    status: planned
+
+  - name: claude-code
+    lane: 1
+    method: git-subtree-copy
+    upstream: anthropics docs repos + CHANGELOG.md in https://github.com/anthropics/claude-code
+    folder: claude-code/
+    refresh: shallow clone/pull, copy docs + changelog
+    status: planned
+
+  - name: antigravity
+    lane: 2
+    method: llms-txt
+    upstream: https://antigravity.google/llms.txt
+    folder: antigravity/
+    refresh: fetch index, fetch each listed page as .md, mirror index paths
+    status: planned
+
+  - name: claude-platform
+    lane: 2
+    method: llms-txt
+    upstream: https://platform.claude.com/llms.txt
+    folder: claude-platform/
+    refresh: fetch index, fetch each listed page as .md, mirror index paths
+    status: planned
+
+# Lane 3 (doc-to-MD converter / tavily-crawl residue) entries are added as the
+# llms.txt probe (INT-118 lane 2 child issue) identifies which vendors have
+# neither a docs repo nor an llms.txt endpoint.
