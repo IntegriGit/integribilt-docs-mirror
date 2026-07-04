@@ -80,11 +80,14 @@ sources:
     status: pulled
 
   - name: claude-code
-    lane: 1
-    method: git-subtree-copy
-    upstream: anthropics docs repos + CHANGELOG.md in https://github.com/anthropics/claude-code
+    lane: 2
+    method: llms-txt + git-subtree-copy
+    upstream: https://code.claude.com/docs/llms-full.txt (CLI docs, distinct from claude-platform) + CHANGELOG.md in https://github.com/anthropics/claude-code
     folder: claude-code/
-    refresh: shallow clone/pull, copy docs + changelog
+    refresh: >
+      curl -s https://code.claude.com/docs/llms.txt > claude-code/llms.txt &&
+      curl -s https://code.claude.com/docs/llms-full.txt > claude-code/llms-full.txt;
+      shallow clone/pull anthropics/claude-code, copy CHANGELOG.md
     status: pulled
 
   - name: antigravity
@@ -108,27 +111,32 @@ sources:
 # neither a docs repo nor an llms.txt endpoint.
 
   - name: docker
-    lane: 3
-    method: tavily-crawl
-    upstream: https://docs.docker.com
+    lane: 1
+    method: git-subtree-copy + llms-txt
+    upstream: https://github.com/docker/docs (content/manuals/compose, content/manuals/engine, content/reference/cli/docker) + https://docs.docker.com/llms.txt
     folder: docker/
-    refresh: "curl https://docs.docker.com/ | pandoc -f html -t markdown > docker/engine.md; curl https://docs.docker.com/compose/ | pandoc -f html -t markdown > docker/compose.md"
+    refresh: >
+      sparse clone docker/docs (depth 1, blob:none), copy the three scoped
+      content subtrees into docker/; curl -s https://docs.docker.com/llms.txt > docker/llms.txt
     status: pulled
 
   - name: tailscale
     lane: 3
-    method: tavily-crawl
-    upstream: https://tailscale.com/kb/
+    method: html-to-md (no llms.txt upstream; tavily-crawl for nightly extension)
+    upstream: https://tailscale.com/kb/ (15 core KB pages pulled 2026-07-04 via python html2text into tailscale/kb/)
     folder: tailscale/
-    refresh: "curl https://tailscale.com/kb/ | pandoc -f html -t markdown > tailscale/kb.md"
+    refresh: >
+      python html2text pull of core KB pages (what-is-tailscale, install, acls,
+      grants, subnets, exit-nodes, magicdns, tailscale-ssh, serve, funnel,
+      auth-keys, api, taildrop, troubleshooting, cli) into tailscale/kb/
     status: pulled
 
   - name: netbox
-    lane: 3
-    method: tavily-crawl
-    upstream: https://docs.netbox.dev/
+    lane: 1
+    method: git-subtree-copy
+    upstream: https://github.com/netbox-community/netbox (docs/, mkdocs markdown)
     folder: netbox/
-    refresh: "curl https://docs.netbox.dev/ | pandoc -f html -t markdown > netbox/docs.md"
+    refresh: sparse clone netbox-community/netbox (depth 1, blob:none), copy docs/ into netbox/
     status: pulled
 
   - name: openai
@@ -145,4 +153,73 @@ sources:
     upstream: https://cloud.google.com/docs
     folder: google-cloud/
     refresh: "curl https://cloud.google.com/docs | pandoc -f html -t markdown > google-cloud/docs.md"
+    status: pulled
+
+# Lane 4 (memory stack, INT-131) — added 2026-07-04
+
+  - name: honcho
+    lane: 2
+    method: llms-txt + git-subtree-copy
+    upstream: https://docs.honcho.dev/llms-full.txt + https://github.com/plastic-labs/honcho (docs/v3 + root md + compose/config examples)
+    folder: honcho/
+    refresh: >
+      curl -s https://docs.honcho.dev/llms.txt > honcho/llms.txt &&
+      curl -s https://docs.honcho.dev/llms-full.txt > honcho/llms-full.txt;
+      shallow clone plastic-labs/honcho, copy README/CHANGELOG/CLAUDE.md,
+      docker-compose.yml.example, config.toml.example, docs/v3 into honcho/repo/
+    status: pulled
+
+  - name: redis
+    lane: 1
+    method: git-subtree-copy
+    upstream: https://github.com/redis/docs — SCOPED to content/develop/data-types/timeseries, content/develop/ai, content/develop/interact/search-and-query, content/operate/oss_and_stack (not the whole redis-doc firehose)
+    folder: redis/
+    refresh: >
+      sparse clone redis/docs (depth 1, blob:none), sparse-checkout the four
+      scoped subtrees, copy *.md into redis/ preserving paths under content/;
+      curl -s https://redis.io/llms.txt > redis/llms.txt
+    status: pulled
+
+  - name: neo4j
+    lane: 2
+    method: llms-txt + git-subtree-copy
+    upstream: https://neo4j.com/docs/llms.txt + https://github.com/neo4j/docs-getting-started (asciidoc incl. data modeling) + https://github.com/neo4j/neo4j-graphrag-python (docs/)
+    folder: neo4j/
+    refresh: >
+      curl -s https://neo4j.com/llms.txt > neo4j/llms.txt &&
+      curl -s https://neo4j.com/docs/llms.txt > neo4j/llms-docs-index.txt;
+      sparse clone the two repos, copy getting-started modules/ROOT into
+      neo4j/getting-started/ and graphrag docs into neo4j/graphrag-python/
+    status: pulled
+
+  - name: mem0
+    lane: 2
+    method: llms-txt
+    upstream: https://docs.mem0.ai/llms-full.txt
+    folder: mem0/
+    refresh: >
+      curl -s https://docs.mem0.ai/llms.txt > mem0/llms.txt &&
+      curl -s https://docs.mem0.ai/llms-full.txt > mem0/llms-full.txt
+    status: pulled
+
+  - name: zep
+    lane: 2
+    method: llms-txt (per-page .md)
+    upstream: https://help.getzep.com/v3/llms.txt — index links end in .md; fetch each as-is
+    folder: zep/
+    refresh: >
+      curl -s https://help.getzep.com/llms.txt > zep/llms.txt &&
+      curl -s https://help.getzep.com/v3/llms.txt > zep/llms-v3-index.txt;
+      fetch every https://help.getzep.com/*.md link from the v3 index into
+      zep/docs/ (drop <!DOCTYPE and "Page Not Found" responses)
+    status: pulled
+
+  - name: letta
+    lane: 2
+    method: llms-txt
+    upstream: https://docs.letta.com/llms-full.txt
+    folder: letta/
+    refresh: >
+      curl -s https://docs.letta.com/llms.txt > letta/llms.txt &&
+      curl -s https://docs.letta.com/llms-full.txt > letta/llms-full.txt
     status: pulled
