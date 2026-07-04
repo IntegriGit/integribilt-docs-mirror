@@ -52,6 +52,12 @@ when the diff is non-trivial. Until that job lands, refresh is manual.
 
 ## Querying
 
-Company skill `docs-mirror` documents the query path for agents
-(clone location per host, grep/qmd usage). Until the skill is registered:
-clone this repo and search it with ripgrep.
+Company skill `docs-mirror` (registered 2026-07-04, INT-124) documents the
+query path for agents. Canonical local clones:
+
+- OFC01: `E:\clones\docs\integribilt-docs-mirror`
+- SVR02: `/home/lmiller/integribilt-docs-mirror`
+- anywhere else: `git clone https://github.com/IntegriGit/integribilt-docs-mirror`
+
+`git pull --ff-only`, then scope ripgrep to the source folder; use
+`git log`/`git diff` on a folder for "what changed upstream".
