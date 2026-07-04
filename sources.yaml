@@ -72,16 +72,16 @@ sources:
     method: llms-txt
     upstream: https://antigravity.google/llms.txt
     folder: antigravity/
-    refresh: fetch index, fetch each listed page as .md, mirror index paths
-    status: planned
+    refresh: curl -s https://antigravity.google/llms.txt > antigravity/llms.txt
+    status: pulled
 
   - name: claude-platform
     lane: 2
     method: llms-txt
     upstream: https://platform.claude.com/llms.txt
     folder: claude-platform/
-    refresh: fetch index, fetch each listed page as .md, mirror index paths
-    status: planned
+    refresh: curl -s https://platform.claude.com/llms.txt > claude-platform/llms.txt
+    status: pulled
 
 # Lane 3 (doc-to-MD converter / tavily-crawl residue) entries are added as the
 # llms.txt probe (INT-118 lane 2 child issue) identifies which vendors have
