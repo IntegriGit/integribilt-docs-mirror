@@ -1,0 +1,168 @@
+[[csv-import]]
+= Import CSV data using `LOAD CSV`
+:description: This guide shows how to use the command LOAD CSV to import small to medium datasets in CSV format into Neo4j using Aura and on-premise deployments.
+:page-pagination:
+
+Neo4j supports xref:data-import/index.adoc#_methods_comparison[different methods] of importing data.
+Which method to use depends on factors like dataset size, link:{docs-home}/deployment-method[deployment method], and familiarity with Cypher.
+This guide shows how to import CSV data into Neo4j using link:https://neo4j.com/docs/cypher-manual/current/clauses/load-csv/[`LOAD CSV`] command.
+
+[TIP]
+====
+For a more hands-on experience, enroll in the GraphAcademy course link:https://graphacademy.neo4j.com/courses/importing-cypher/[Importing CSV data into Neo4j].
+To import larger CSV files into Neo4j, see the tutorial for link:https://neo4j.com/docs/operations-manual/current/tutorial/neo4j-admin-import/[Neo4j-admin import].
+====
+
+== Loading the file
+
+The `LOAD CSV` command can be used to load data into any deployment of Neo4j, whether it is an link:https://neo4j.com/product/auradb/[Aura instance] or a local installation.
+See link:{docs-home}/deployment-options[deployment options] for information.
+The command looks like this:
+
+[source,cypher]
+--
+LOAD CSV [WITH HEADERS] FROM url [AS alias] [FIELDTERMINATOR char]
+--
+
+What the command does is:
+
+* *`WITH HEADERS` (optional)* -> the first line of the CSV file is treated as a header and each row is treated as a map of key-value pairs rather than a list of values.
+* *`FROM` (mandatory)* -> specifies the location whether it is local or over the internet.
+* *`AS alias` (optional)* -> names each row for reference.
+* *`FIELDTERMINATOR` (optional)* -> the default field terminator in CSV files is the comma, but others are supported and can be specified here.
+
+You can import link:https://neo4j.com/docs/cypher-manual/current/clauses/load-csv/#_import_local_files[local files].
+However, in this guide, you will use a link to load the CSV file:
+
+[source,cypher]
+--
+LOAD CSV WITH HEADERS 
+FROM 'https://data.neo4j.com/importing-cypher/people.csv' AS row
+RETURN row
+--
+
+The result is:
+
+[options=header,cols=1]
+|===
+
+|row
+|{
+  +
+  "birthYear": "1942", +
+  "name": "Gerard Pires", +
+  "personId": "23945" +
+}
+
+|{
+  +
+  "birthYear": "1941", +
+  "name": "Helen Reddy", +
+  "personId": "553509" +
+}
+
+|{
+  +
+  "birthYear": "1939", +
+  "name": "Susan Flannery", +
+  "personId": "113934" +
+}
+|===
+
+== Filtering loaded data
+
+Alternatively, you can also use `LOAD CSV` to load only a subset of the data in the CSV file.
+For example, you can import information only about people born in 1942:
+
+[source,cypher]
+--
+LOAD CSV WITH HEADERS
+FROM 'https://data.neo4j.com/importing-cypher/people.csv' 
+AS row
+WITH row WHERE row.birthYear = '1942'
+RETURN row
+--
+
+The result is:
+
+[options=header,cols=1]
+|===
+
+|row
+|{
+    +
+  "birthYear": "1942", 
+  +
+  "name": "Gerard Pires",
+  +
+  "personId": "23945"
+  +
+}
+|===
+
+Note that in the query, you need to refer to the year of 1942 as the `string` datatype (encased by single quotes `'`).
+This is because xref:data-import/csv-files.adoc#_data_types[`LOAD CSV` reads all values as a `string`].
+In the next step, you will learn how to convert the values to their respective types.
+
+== Convert data types
+
+In the *people.csv* file, you have data such as the birth year and the ID number for each person.
+`LOAD CSV` only reads *all* values as `string`.
+For better processing of the data, you can convert these values into temporal and numerical types.
+
+`personId` can be turned into an interger by using the `toInteger()` function, and `birthYear` can be turned into a date format by using the `date()` function:
+
+[source, cypher]
+----
+LOAD CSV WITH HEADERS
+FROM 'https://data.neo4j.com/importing-cypher/people.csv'
+AS row
+WITH toInteger(row.personId) AS personId, date(row.birthYear) AS birthYear
+RETURN personId, birthYear
+----
+
+.Result
+[options=header,cols="1,1"]
+|===
+
+| personId
+| birthYear
+
+|23945	
+|"1942-01-01"
+
+|553509	
+|"1941-01-01"
+
+|113934	
+|"1939-01-01"
+
+|===
+
+Note that the property value for the `birthYear` only contains the year, but when converted into a `date` type, Cypher automatically adds January 1st as the date of the specified year.
+This is to comply with the format of the `date` data type, `YYYY-MM-DD`.
+
+== Check the imported data
+
+You may want to verify that your data has been imported correctly.
+These are some things you can do to ensure that the imported data is accurate:
+
+. Count the number of rows in the CSV file and compare it to the number of rows returned by the `LOAD CSV` clause by using the link:https://neo4j.com/docs/cypher-manual/current/subqueries/count/[`COUNT`] function in a new query:
++
+[source,cypher]
+--
+LOAD CSV WITH HEADERS
+FROM 'https://data.neo4j.com/importing-cypher/people.csv'
+AS row
+RETURN count(row)
+--
++
+
+. Make sure header names match those in the CSV file.
+
+== Keep learning
+
+Regardless of where your data comes from, it is likely that it needs some preparation before it is ready to be imported.
+See xref:data-import/csv-files.adoc[Working with CSV files] to learn more about the structure of data, how to clean it up, and optimize it.
+
+Alternatively, you can follow the the xref:data-modeling/tutorial-data-modeling.adoc[Tutorial: Create a graph data model] to learn what to do next after importing data into Neo4j.

@@ -1,0 +1,129 @@
+= Get started with Neo4j
+:page-layout: docs-ndl
+:page-theme: docs
+:page-role: hub
+:page-show-home-link: true
+:page-hide-nav-title: true
+// :page-disablefeedback: true
+:page-toclevels: -1
+
+[.display.cards.selectable]
+
+== Explore the capabilities of graph databases
+
+With a property graph database at its core, Neo4j offers an ecosystem of tools, applications, and libraries which aim to help you get started with the technology.
+
+=== What is Neo4j
+
+[.icon]
+image:ROOT:icon-neo4j.svg[]
+
+[.description]
+Learn what a graph database is and how to use it in your projects.
+
+[.link]
+xref:whats-neo4j.adoc[]
+
+=== What is a graph database
+
+[.icon]
+image:ROOT:icon-graph.svg[]
+
+[.description]
+Learn the principles of a graph database.
+
+[.link]
+xref:graph-database.adoc[]
+
+=== What is Cypher
+
+[.icon]
+image:ROOT:icon-developer.svg[]
+
+[.description]
+Learn Cypher, Neo4j's graph query language, and start thinking about graphs and patterns.
+
+[.link]
+xref:cypher/index.adoc[]
+
+[.display.cards.selectable]
+
+== Work with data
+
+=== Model your data to Neo4j
+
+[.icon]
+image:ROOT:icon-csvtodb.svg[]
+
+[.description]
+Discover strategies to model your data and to improve your workflow.
+
+[.link]
+link:{docs-home}/model[]
+
+=== Import data to Neo4j
+
+[.icon]
+image:ROOT:icon-import.svg[]
+
+[.description]
+Read more about the different ways of importing data to your Neo4j graph database.
+
+[.link]
+link:{docs-home}/import/[]
+
+=== Create applications with Neo4j
+
+[.icon]
+image:ROOT:icon-code.svg[]
+
+[.description]
+Run through detailed examples of how to integrate Neo4j with your preferred programming language. 
+
+[.link]
+link:{docs-home}/create-applications[]
+
+=== Data science with Neo4j
+
+[.icon]
+image:ROOT:icon-gds.svg[]
+
+[.description]
+Learn how to use Neo4j Graph Data Science, a library of graph algorithms for analysts and data scientists.
+
+[.link]
+link:{docs-home}/gds[]
+
+=== Visualize data in Neo4j
+
+[.icon]
+image:ROOT:icon-dataviz.svg[]
+
+[.description]
+Learn how to export your graph data in Neo4j for display as a visualization.
+
+[.link]
+link:{docs-home}/visualize/[]
+
+[.widget.highlights]
+== Tutorials & How-to guides
+
+[.icon]
+image:ROOT:highlights.svg[]
+
+[.caption]
+GraphAcademy courses
+
+[.list]
+* link:{docs-home}/genai/tutorials/embeddings-vector-indexes/[Embedding & Vector Indexes Tutorial]
+* xref:data-import/relational-to-graph-import.adoc[Import from a relational database into Neo4j]
+* xref:appendix/tutorials/guide-build-a-recommendation-engine.adoc[Build a Cypher recommendation engine]
+* link:{docs-home}/operations-manual/current/tutorial/tutorial-composite-database/[Set up and use a composite database]
+* link:{docs-home}/cdc/current/procedures/query-examples/[Capture and track changes in real-time]
+* link:{docs-home}/graph-data-science-client/current/tutorials/centrality-algorithms/[Apply centrality algorithms to your graph]
+
+[.next-steps]
+== Licenses and disclaimers
+
+[.link]
+* link:{docs-home}/license[Licenses and disclaimers]

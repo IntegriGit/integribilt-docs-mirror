@@ -1,0 +1,59 @@
+[[language-guides]]
+= Create an application
+:aura_signup: https://neo4j.com/cloud/aura/?ref=developer-guides
+:tags: programming-languages, applications, bolt, app-development
+:page-ad-overline-link: https://neo4j.com/cloud/aura/?ref=developer-guides
+:page-ad-overline: Neo4j Aura
+:page-ad-title: Don't have a Neo4j instance? Launch one now.
+:page-ad-description: Free forever, no credit card required.
+:page-ad-link: https://neo4j.com/cloud/aura/?ref=developer-guides
+:page-ad-underline-role: button
+:page-ad-underline: Start on AuraDB
+
+This page lists the officially supported libraries and APIs that you can use to link:{docs-home}/create-aplications[create an application].
+
+== Libraries
+
+[options=header,cols="1,1a"]
+|===
+
+| Documentation
+| GraphAcademy course
+
+| link:{docs-home}/python-manual[Python]
+| link:https://graphacademy.neo4j.com/courses/app-python/[Building Neo4j Applications with Python]
+
+| link:{docs-home}/javascript-manual[JavaScript]
+| link:https://graphacademy.neo4j.com/courses/app-typescript/[Building Neo4j Applications with TypeScript]
+
+| link:{docs-home}/java-manual[Java]
+| link:https://graphacademy.neo4j.com/courses/app-java/[Building Neo4j Applications with Java]
+
+| link:{docs-home}/dotnet-manual[.NET]
+| link:https://graphacademy.neo4j.com/courses/app-dotnet/[Building Neo4j Applications with .NET]
+
+| link:{docs-home}/go-manual[Go]
+| link:https://graphacademy.neo4j.com/courses/app-go/[Building Neo4j Applications with Go]
+
+| link:{docs-home}/graphql[GraphQL]
+| link:https://graphacademy.neo4j.com/courses/graphql-basics/[Introduction to Neo4j & GraphQL]
+
+| *Node.js*
+| link:https://graphacademy.neo4j.com/courses/app-nodejs/[Building Neo4j Applications with Node.js]
+
+| link:https://docs.spring.io/spring-data/neo4j/reference/[Spring Data]
+| link:https://graphacademy.neo4j.com/courses/app-spring-data/[Building Neo4j Applications with Spring Data]
+
+| link:{docs-home}/ogm-manual/[Neo4j OGM]
+| -
+
+|===
+
+[#query-api]
+== APIs
+
+Neo4j supports the following APIs:
+
+* *link:{docs-home}/http-api/[HTTP API] (_Not available on Aura_) and link:{docs-home}/query-api[Query API]* -> allow executing Cypher statements against a Neo4j server through HTTP requests.
+The main use case of these APIs is for developing client applications in languages for which there is no supported library.
+* link:{docs-home}/cdc[Change Data Capture] -> allows capturing and tracking changes to your database in real-time, enabling you to keep your other data sources up to date with Neo4j.

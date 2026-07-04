@@ -1,0 +1,107 @@
+[[data-modeling-tools]]
+= Data modeling tools
+:description: See a list of tools that you can use when designing a data model.
+
+//Check Mark
+:check-mark: icon:check[]
+
+//Cross Mark
+:cross-mark: icon:times[]
+
+There is a range of no-code tools to get you started with data modeling. 
+Some available tools are listed here.
+
+== Neo4j Data Importer
+
+image::data-importer-1.png[600,600,role="popup-link"]
+
+Neo4j Data Importer integrates data modeling into the xref:data-import/index.adoc[import process] and lets you sketch a graph model and map your data to it.
+You can access it:
+
+* Via *Import* in link:https://neo4j.com/product/auradb/?ref=docs-nav-get-started[Neo4j Aura].
+* As a standalone version link:https://data-importer.neo4j.io/[with secure connection only] or link:https://data-importer.graphapp.io/[with both secure and insecure connections].
+
+For more information, refer to link:{docs-home}/data-importer/[Neo4j Data Importer's documentation].
+
+== Arrows.app
+
+image::northwind-graph-model.png[600,600,role="popup-link"]
+
+link:https://arrows.app[Arrows.app] is a no-code visualization platform which allows whiteboarding ideas into a graph model.
+It is ideal for designing a domain model for your data.
+
+With this platform, you can:
+
+* Draft your own whiteboard from scratch or import data from JSON files and plain text.
+* Create, modify, and delete nodes and relationships with their labels and properties without writing any code.
+* Export the visualization as a Cypher statement and load it into a Neo4j database.
+
+[role=label--labs-label]
+== Cypher Workbench
+
+image::cypher-workbench.png[600,600,role="popup-link"]
+
+link:https://help.neo4j.solutions/neo4j-solutions/cypher-workbench/[Cypher Workbench] is a cloud-based tool that assists Neo4j developers in creating and maintaining solutions built on top of Neo4j. 
+It combines no-code visual solutions as the ones available in link:https://arrows.app[Arrows.app] while also offering importing options similar to link:{docs-home}/data-importer[Neo4j Data Importer].
+
+With this platform, you can:
+
+* Create a data model from scratch or import data from JSON files.
+* Reverse-engineer data models from existing Neo4j databases.
+* Use Cypher statements to augment the current data model, including node labels, relationship types, and properties.
+* Validate your model (naming conventions, constraints, data, common mistakes, etc).
+* Use a business scenarios tool for capturing questions and scenarios of use cases.
+* Import data from Excel, Google Sheets, or plain text.
+
+For instructions on how to install it, refer to link:https://help.neo4j.solutions/neo4j-solutions/cypher-workbench/installation/[Cypher Workbench's documentation].
+
+== Other tools
+
+There are other non-Neo4j tools that can be used for data modeling:
+
+* link:https://mermaid.live/[Mermaid]: general data modeling tool (not specifically for graph databases), based on Markdown.
+Ideal for documenting modeling strategies.
+* link:https://plantuml.com/[PlantUML]: application for creating diagrams from plain text.
+This is more for version control than model design.
+* link:https://hackolade.com/[Hackolade]: a tool to design, document, and communicate data models and schemas.
+Built to support the kind of data modeling specific to Neo4j with node labels and relationship types.
+
+== Tools comparison
+
+[options=header,cols="^.^2,^.^,^.^2,^.^2"]
+|===
+| Tool
+| Free
+| Import
+| Export
+
+| Data Importer
+| {check-mark}
+| .csv, .tsv
+| -
+
+| Arrows
+| {check-mark}
+| JSON
+| Image, Cypher, JSON,URL, GraphQL
+
+| Cypher Workbench
+| {cross-mark}
+| Cypher Workbench JSON, Apoc.meta.schema, Arrows JSON
+| JSON
+
+| PlantUML
+| {check-mark}
+| PUML, JSON
+| PNG, SVG, LaTeX format and ASCII art diagrams
+
+| Mermaid
+| {cross-mark}
+| MarkDown
+| MarkDown
+
+| Hackolade
+| {cross-mark}
+| Hackolade JSON, YAML, DDL, XSD, Excel Template, Cloud Storage, Collibra Data Dictionary
+| Cypher, HTML
+|===

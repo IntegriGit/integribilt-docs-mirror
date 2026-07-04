@@ -1,0 +1,143 @@
+[[modeling-designs]]
+= Modeling designs
+:tags: graph-modeling, data-model, schema, model-design, modeling-decisions
+:description: This page features examples of graph data modeling patterns and designs that are commonly used with Neo4j.
+
+This page features examples of graph data modeling patterns and designs that are commonly used with Neo4j.
+The purpose is to get an overview of the options available for building graph data models and how known strategies can be adapted to your project.
+
+== Intermediate nodes
+
+Intermediary nodes are nodes that contain data that need to be in the graph but don't seem to fit neatly into the initial model.
+
+Sometimes you need to convey a lot of information in a relationship.
+In a mathematical graph, this can be solved with a *hyperedge*, i.e. a relationship that connects more than two nodes.
+This is not supported in Neo4j but can be solved by using an intermediary node.
+
+For example, consider a person who works at a company and you need to convey information about their role:
+
+image::hyperedge.svg[An example of a hyperedge in which a relationship is connected to two nodes, a feature not available in Neo4j,width=400,role=popup]
+
+In a mathematical graph, you could use the same relationship `WORKED_AT` to connect the `Person` node with both `Role` and `Company` nodes.
+However this is not supported in Neo4j.
+
+Instead, you could either turn the `Role` node into a property of the `WORKED_AT` relationship or use an *intermediate node* between the `Person`, `Company`, and `Role` nodes:
+
+image::refactored-hyperedge.svg[Instead of using one single relationship to both Company and Role nodes, an intermediary Employment node can solve the problem of incompatibility of hyperedges in Neo4j,width=500,role=popup]
+
+In this new graph, instead of saying Patrick works at company Acme, Patrick has an *employment event*, which becomes a new node.
+The employment event holds the employment start and end dates, and logically relates to the other three nodes. 
+
+Despite the fact that an employment event is an abstract idea, it is a good way to link related additional information.
+
+=== Sharing context
+
+In this expanded version of the previous example, a new `Person` node with the name David is added:
+
+image::intermediate-nodes-employement-sharing-context-example.svg[Graph showing shared context between employment and company nodes,width=600,role=popup]
+
+This expanded example highlights the ability to show shared context between multiple nodes using a common event (the intermediary node).
+Specifically in this example, the `Person` nodes share context through `Role` and `Company` nodes.
+The `Employment` nodes provide a way to trace details such as a person's career, or the overlap between different individuals at the same `Company`, or those who had the same `Role`.
+
+The use of intermediary nodes can also answer the question "Who worked at the same company at the same time?" as the added employment event contains information about when each individual worked at a certain company.
+A `MATCH` clause would show that Patrick and David both worked at Acme, being colleagues from 2004 to 2005 since their employment events overlap during that time:
+
+[source,cypher]
+--
+MATCH (p1:Person)-[w1:WORKED_AT]->(c:Company {name: "Acme"}),
+      (p2:Person)-[w2:WORKED_AT]->(c)
+WHERE p1 <> p2
+  AND w1.startDate <= w2.endDate
+  AND w2.startDate <= w1.endDate
+RETURN p1.name AS Person1, p2.name AS Person2
+ORDER BY Person1, Person2
+--
+
+=== Sharing data
+
+Intemediate nodes can also add value to a model by providing a way to share data and thus reduce duplicate information.
+In this example, Sarah sends an email to Lucy and copies David and Claire to it.
+The content of each email is a property on every relationship:
+
+image::sarah-email-before.svg[Example graph with a node for Sarah sending an email to David and Claire with the message testing,width=400,role=popup]
+
+If you instead fan out the model, you reduce duplication by breaking out the property `content` from all relationships and turning it into the intermediary node `Email` instead:
+
+image::sarah-email-after.svg[Example of how to not repeat a same property by turning it into an intermediate node,width=400,role=popup]
+
+Once the property value `content` is moved to a single node `Email`, it can be referenced via relationships with the `User` nodes that previously held that value.
+Now there are no duplications.
+
+=== Organizing data
+
+Intermediate nodes can also help organize structures.
+In the previous example, Sarah sent the same email message to several people.
+If Sarah sends more email messages to more people, without using intermediary nodes, the graph quickly grows to this:
+
+image::sarah-emailed.svg[Graph showing how a user named Sarah emailed several other users,width=300,role=popup]
+
+When every `EMAILED` relationship includes a property with the content of the message, in addition to duplication, two other problems can arise:
+
+* *Sarah’s node is becoming very dense*: For every email she sends, including CC's, her node gains another relationship.
+* *It's expensive to retrieve the content of the email*: With the data modeled like this, it's very expensive to determine who in Sarah’s recipient network has received a given message by searching for the content in multiple 'EMAILED' relationships.
+
+When you fan out and add intermediate nodes to represent each email message, Sarah's node has only one relationship per email message, regardless of the number of recipients:
+
+image::sarah-emailed-intermediate.svg[Updated graph with intemediate nodes for emails sent by Sarah to several other users,width=300,role=popup]
+
+With this model, you can find the recepients by locating the specific `Email` node that now contains the content of the message in the `content` property, and then see which users are connected to it via `TO` relationships.
+
+While both models use a gather-and-inspect approach, the scope of the problem is reduced significantly after the refactoring.
+In the first iteration, if you want to see who received a certain email, you need to find all users connected to Sarah via the `EMAILED` relationship.
+In the second iteration, you only need to locate the correct `Email` node, then traverse from it to all of the connected recipients.
+
+In summary, you're likely to find many uses for intermediate nodes during refactoring since you rarely recognize the need for them at the outset of the data modeling.
+
+== Linked list
+
+Linked lists are commonly used in computer science and they are particularly useful whenever the sequence of objects matters.
+A *simple-linked list* is where each node links to the next node only:
+
+image::simple-linked-list.svg[Episodes of Dr Who linked in sequence with next relationships,width=500,role=popup]
+
+In a *double-linked list*, each node links both to the next and the previous node:
+
+image::double-linked-list.svg[Episodes of Dr Who doubly linked with next and previous relationships, an incorrect modeling design in Neo4j,width=500,role=popup]
+
+Double-linked lists are not recommended because one relationship becomes redundant (if one is the next, then the other is the previous) and Cypher also allows bi-directional matches.
+Moreover, while it is common practice to use verbs as relationship types, with linked lists, it is acceptable to connect sequential items using terms such as "next" and "previous" instead.
+
+=== Interleaved linked list
+
+Interleaved lists are used when you want to sequence a set of items based on context, not on chronology. 
+This example combines a linked list with an interleaved linked list of Dr. Who episodes:
+
+image::interleaved-list.svg[Example of interleaved list connecting Dr Who episodes with next and next in production relationships,width=700,role=popup]
+
+The order in which TV episodes are aired is often different than the order in which they are produced.
+This example contains five episodes of Dr. Who from season 12 and it shows:
+
+* The order in which the episodes were aired using the `NEXT` relationship and through a simple-linked list.
+* The order in which the episodes were produced using the `NEXT_IN_PRODUCTION` relationship, which creates an interleaved linked list.
+It is not a linear list, as it goes 1, 3, 2, 5, 4.
+
+Note that this example is *not* a double-linked list because the relationships are not mutually exclusive.
+
+=== Head and tail of a linked list
+
+When working with linked lists, there is often a “parent” node that is used as the entry point. 
+The parent almost always points to the first item in the sequence, using an appropriately named relationship. 
+Sometimes, another relationship points to the last item in a list.
+
+In this example, you can see a `FIRST` and a `LAST` relationship, referring to their places in the sequence:
+
+image::head-tail-list.svg[List of five Dr Who episodes from season twelve, showing the first and the last through a relationship with the season node,width=700,role=popup]
+
+Some implementations also have a "progress" pointer that is used to keep track of the current node of interest.
+This can be done through a relationship, as such:
+
+image::latest-aired.svg[The latest aired episode is pointed out with the help of a latest aired relationship coming from the season node,width=700,role=popup]
+
+The progress pointer here is the `LATEST_AIRED` relationship and it shows which was the most recently aired episode (i.e. "The Ark in Space").
+When the `NEXT` episode ("The Sontaran Experiment") airs, the relationship is updated by deleting the current one and creating a new `LATEST_AIRED` pointer, so that it always points to the current item.

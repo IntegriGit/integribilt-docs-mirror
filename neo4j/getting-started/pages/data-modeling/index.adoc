@@ -1,0 +1,46 @@
+[[data-modeling]]
+= What is graph data modeling?
+:description: graph-modeling, data-model, schema, create-model, translate-model, model-performance, model-example
+:page-ad-overline-link: https://graphacademy.neo4j.com/courses/modeling-fundamentals/?ref=docs
+:page-ad-overline: Neo4j GraphAcademy
+:page-ad-title: Graph Data Modeling Fundamentals
+:page-ad-description: Learn how to design a Neo4j graph using best practices
+:page-ad-link: https://graphacademy.neo4j.com/courses/modeling-fundamentals/?ref=docs
+:page-ad-underline-role: button
+:page-ad-underline: Learn more
+
+Data modeling is a practice that defines the logic of queries and the structure of the data in storage.
+A well-designed model is the key to leveraging the strengths of a graph database as it improves query performance, supports flexible queries, and optimizes storage.
+
+In summary, the process of creating a <<data model>> includes the following:
+
+. Understand the domain and define specific use cases (questions) for the application.
+. Develop an initial graph data model by extracting entities and decide how they relate to each other.
+. Test the use cases against the initial data model.
+. Create the graph with test data using Cypher.
+. Test the use cases, including performance against the graph.
+. Refactor the graph data model due to changes in the key use cases or for performance reasons.
+
+For a full tutorial, refer to xref:data-modeling/tutorial-data-modeling.adoc[Create a data model].
+
+== Keep learning
+
+For a more hands-on approach to data modeling, try the following resources:
+
+* link:https://graphacademy.neo4j.com/courses/modeling-fundamentals/?ref=docs[GraphAcademy: Data Modeling Fundamentals]: enroll to an interactive course.
+* xref:data-modeling/relational-to-graph-modeling.adoc[From relational to graph]: learn how to adapt data from a relational to a graph data model.
+* xref:data-modeling/data-modeling-tools.adoc[Data modeling tools]: see a list of tools you can use to create your data model.
+* xref:data-modeling/modeling-tips.adoc[Data modeling tips]: check tips on how to improve your data modeling skills.
+* xref:data-modeling/modeling-designs.adoc[Modeling designs]: see examples of data modeling designs that can be used as strategy for your project.
+* link:https://neo4j.com/graphgists/[Neo4j GraphGists]: find examples of graph data modeling shared by the Neo4j community.
+
+ifndef::backend-pdf[]
+[discrete.glossary]
+endif::[]
+== Glossary
+
+include::../glossary.adoc[]
+
+ifdef::backend-pdf[]
+<<<
+endif::[]

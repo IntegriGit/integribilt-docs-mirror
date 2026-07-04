@@ -1,0 +1,146 @@
+= Neo4j - OGM Object Graph Mapper
+:aura_signup: https://neo4j.com/cloud/aura/?ref=developer-guides
+:tags: ogm, object-graph-map, app-development, applications
+:description: For Java developers that require a mechanism to manage their domain objects with Neo4j, this guide introduces the Neo4j Object Graph Mapping (OGM) library.
+
+[abstract]
+{description}
+[abstract]
+You should be familiar with xref:appendix/graphdb-concepts/index.adoc[graph database concepts] and the property graph model.
+You should have link:{aura_signup}[created an Neo4j AuraDB cloud instance], or link:/download/[installed Neo4j locally]
+
+
+[#neo4j-ogm]
+== Neo4j-OGM
+
+* Version control - https://github.com/neo4j/neo4j-ogm
+
+* Bug tracker - https://github.com/neo4j/neo4j-ogm/issues
+
+[#ogm-features]
+== Features
+
+The Neo4j-OGM supports the features you would expect:
+
+* Object graph mapping of annotated node- and relationship-entities
+* Neo4jSession for direct interaction with Neo4j
+* Fast class metadata scanning
+* Optimized management of data loading and change tracking for minimal data transfers
+* Multiple transports: binary (bolt), HTTP and embedded
+* Persistence lifecycle events
+* Query result projection to DTOs
+
+[#ogm-code-example]
+== Minimal Code Snippet
+
+This code example is taken from the Example Project (see below).
+
+[source,java]
+----
+@NodeEntity
+public class Movie {
+
+   @Id @GeneratedValue
+   Long id;
+
+   @Property(name="title")
+   private String name;
+}
+
+@NodeEntity
+public class Actor {
+
+   @Id @GeneratedValue
+   private Long id;
+
+   @Property(name="name")
+   private String fullName;
+
+   @Relationship(type="ACTED_IN", direction=Relationship.OUTGOING)
+   private List<Role> filmography;
+
+}
+
+@RelationshipEntity(type="ACTED_IN")
+public class Role {
+    @Id @GeneratedValue
+    private Long relationshipId;
+    
+    @Property
+    private String title;
+    
+    @StartNode
+    private Actor actor;
+    
+    @EndNode
+    private Movie movie;
+}
+----
+
+=== The Example Project
+
+The Neo4j example project is a small, one page webapp for the movies database built into the Neo4j tutorial.
+The front-end page is the same for all drivers: movie search, movie details, and a graph visualization of actors and movies.
+Each backend implementation shows you how to connect to Neo4j from each of the different languages and drivers.
+
+You can learn more about our small, consistent example project across many different language drivers link:/developer/example-project[here^].
+You will find the implementations for all drivers as https://github.com/neo4j-examples?q=movies[individual GitHub repositories^], which you can clone and deploy directly.
+
+[#ogm-faq]
+== FAQ
+
+What is the difference between Neo4j-OGM and Spring Data Neo4j (SDN)?::
+Spring Data Neo4j (SDN) up to version 5.3.x uses Neo4j-OGM under the covers. 
+It’s like Spring Data JPA, where JPA/Hibernate is the underlay.
++
+Most of the power of SDN actually comes from Neo4j-OGM.
+However, starting with Spring Data Neo4j 6.x (Spring Boot 2.4), Neo4j-OGM is not needed anymore. 
++
+Please note that, intentionally, Neo4j-OGM 4+ does not work as a drop-in replacement for Spring Data 5.x.
+
+
+How are labels generated when using inheritance?::
+All concrete classes generate a label, but abstract classes and interfaces not. 
+If any kind of class or interface gets annotated with `@NodeEntity` or `@NodeEntity(label="customLabel")`, it will generate a label. 
+Any class annotated with `@Transient` will not generate a label.
+
+[#ogm-resources]
+== Resources
+
+link:https://search.maven.org/#search|ga|1|a%3A%22neo4j-ogm%22[Neo4j OGM]
+
+[cols="1,4"]
+|===
+| icon:user[] Authors | The Neo4j and http://graphaware.com/neo4j-experts/[GraphAware Teams]
+| icon:gift[] Package | link:https://central.sonatype.com/artifact/org.neo4j/neo4j-ogm[neo4j-ogm]
+| icon:github[] Source | https://github.com/neo4j/neo4j-ogm
+| icon:book[] Docs | https://neo4j.com/docs/ogm-manual/current/
+|===
+
+== Compatibility
+
+Check the table to determine which version of Neo4j-OGM to use with a particular version of Neo4j and related technologies:
+
+[frame="topbot",options="header"]
+|======================
+|Neo4j-OGM Version   |Neo4j Version^1^
+|4.0.x^2^            |4.4.x^6^, 5.x
+|3.2.x               |3.2.x, 3.3.x, 3.4.x, 3.5.x, 4.0.x^2^, 4.1.x^2^, 4.2.x^2^, 4.3.x^2,5^, 4.4.x^2,5^
+|3.1.x^3^            |3.1.x, 3.2.x, 3.3.x, 3.4.x
+|3.0.x^3^            |3.1.9, 3.2.12, 3.3.4, 3.4.4
+|2.1.x^4^            |2.3.9, 3.0.11, 3.1.6
+|2.0.2^4^            |2.3.8, 3.0.7
+|2.0.1^4^            |2.2.x, 2.3.x
+|======================
+
+^1^ __The latest supported bugfix versions.__ +
+
+^2^ __Only supports connections via Bolt.__ +
+
+^3^ __No longer actively developed.__ +
+
+^4^ __No longer actively developed or supported.__ +
+
+^5^ __Neo4j-OGM 3.2.24+ only.__ +
+
+^6^ __Technically working, but not officially supported__ +

@@ -1,0 +1,192 @@
+= Defining a schema
+:description: This guide explains how to define a schema by using indexes and constraints.
+:page-ad-overline-link: https://graphacademy.neo4j.com/courses/cypher-fundamentals
+:page-ad-overline: Neo4j GraphAcademy
+:page-ad-title: Cypher Fundamentals
+:page-ad-description: Learn Cypher in this free, hands-on course
+:page-ad-link: https://graphacademy.neo4j.com/courses/cypher-fundamentals
+:page-ad-underline-role: button
+:page-ad-underline: Learn more
+
+This guide explains how to define a schema by using indexes and constraints.
+While Neo4j is often described as _schema optional_, indexes and constraints can be added when needed, either for performance optimization or xref:data-modeling/index.adoc[modeling] benefits.
+
+== Example graph
+
+Use the following example graph to follow the guide.
+
+[source, cypher]
+--
+CREATE (forrestGump:Movie {title: 'Forrest Gump', released: 1994})
+CREATE (robert:Person:Director {name: 'Robert Zemeckis', born: 1951})
+CREATE (tom:Person:Actor {name: 'Tom Hanks', born: 1956})
+CREATE (tom)-[:ACTED_IN {roles: ['Forrest']}]->(forrestGump)
+CREATE (robert)-[:DIRECTED]->(forrestGump)
+--
+
+This is the resulting graph:
+
+image::tomrobert-gump.svg[Person nodes for Tom Hanks and Robert Zemeckis connected to the Movie node for Forest Gump,role=popup,width=500]
+
+== Using indexes
+
+link:https://neo4j.com/docs/cypher-manual/current/indexes/[Indexes] are used for speeding up data retrieval and thus improve performance.
+They can be added at any time.
+
+The following query creates an index to facilitate finding actors by name in the database:
+
+[source, cypher]
+--
+CREATE INDEX example_index_1 FOR (a:Actor) ON (a.name)
+--
+
+Cypher's query planner automatically selects the appropriate index to use for your query.
+Only in exceptional cases do you need to specify which index to use.
+See link:https://www.neo4j.com/docs/cypher-manual/current/indexes/search-performance-indexes/index-hints/[Cypher -> Index hints for the Cypher planner] for more information.
+
+For example, the following query automatically uses the `example_index_1` previously created:
+
+[source, cypher]
+--
+MATCH (actor:Actor {name: 'Tom Hanks'})
+RETURN actor
+--
+
+The result is:
+
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| actor
+
+| (:Person:Actor {born: 1956, name: "Tom Hanks"})
+
+1+d|Rows: 1
+|===
+
+=== Composite index
+
+A composite index is an index on multiple properties for all nodes that have a particular label.
+For example, the following statement creates a composite index on all nodes labeled with `Actor` and which have both a `name` and a `born` property:
+
+[source, cypher, role="noplay"]
+--
+CREATE INDEX example_index_2 FOR (a:Actor) ON (a.name, a.born)
+--
+
+Note that, for example, if you had a node with the `Actor` label that did not contain the `born` property, it wouldn't be indexed.
+
+=== Show indexes
+
+You can use `SHOW INDEXES` to list indexes in a database:
+
+[source,cypher]
+--
+SHOW INDEXES
+--
+
+With the current example dataset, the result is:
+
+[role="queryresult",options="header,footer",cols="12*<m"]
+|===
+
+| id | name | state | populationPercent | type | entityType | labelsOrTypes | properties | indexProvider | owningConstraint | lastRead | readCount
+
+| 1
+| "index_1b9dcc97"
+| "ONLINE"
+| 100.0
+| "LOOKUP"
+| "RELATIONSHIP"
+| null
+| null
+| "token-lookup-1.0"
+| null
+| null
+| 0
+
+| 0
+| "index_460996c0"
+| "ONLINE"
+| 100.0
+| "LOOKUP"
+| "RELATIONSHIP"
+| null
+| null
+| "token-lookup-1.0"
+| null
+| null
+| 0
+
+12+d|Rows: 2
+|===
+
+== Using constraints
+
+link:https://neo4j.com/docs/cypher-manual/current/constraints/[Constraints] are used to make sure that the data adheres to the rules of the domain.
+They can be property uniqueness, property existence, property type, or key constraints.
+
+[options=header,cols="1,4"]
+|===
+
+| Constraint type
+| Description
+
+| link:https://neo4j.com/docs/cypher-manual/current/constraints/managing-constraints/#create-property-uniqueness-constraints[Property uniqueness]
+| Ensure that the combined property values are unique for all nodes with a specific label or all relationships with a specific type.
+
+| link:https://neo4j.com/docs/cypher-manual/current/constraints/managing-constraints/#create-property-existence-constraints[Property existence]
+| Ensure that a property exists either for all nodes with a specific label or for all relationships with a specific type. label:enterprise[Enterprise Edition]
+
+| link:https://neo4j.com/docs/cypher-manual/current/constraints/managing-constraints/#create-property-type-constraints[Property type]
+| Ensure that a property has the required property type for all nodes with a specific label or for all relationships with a specific type. label:enterprise[Enterprise Edition]
+
+| link:https://neo4j.com/docs/cypher-manual/current/constraints/managing-constraints/#create-key-constraints[Key]
+| Ensure that all properties exist and that the combined property values are unique for all nodes with a specific label or all relationships with a specific type. label:enterprise[Enterprise Edition]
+
+|===
+
+Constraints can be added to the database at any time.
+It's recommended to do it early (or even when the database is still empty), since adding constraints requires that the existing data complies with the constraint that is being added.
+
+This is an example of how to create a constraint:
+
+[source,cypher]
+--
+CREATE CONSTRAINT constraint_example_1 FOR (movie:Movie) REQUIRE movie.title IS UNIQUE
+--
+
+=== Show constraints
+
+You can use `SHOW CONSTRAINTS` to find all existing constraints in a graph:
+
+[source, cypher]
+--
+SHOW CONSTRAINTS
+--
+
+With the current example, this is the result you get:
+
+[role="queryresult",options="header,footer",cols="8*<m"]
+|===
+| id | name | type | entityType | labelsOrTypes | properties | ownedIndex | propertyType
+
+| 5
+| "constraint_example_1"
+| "UNIQUENESS"
+| "NODE"
+| ["Movie"]
+| ["title"]
+| "constraint_example_1"
+| null
+
+8+d|Rows: 1
+|===
+
+== Keep learning
+
+Refer to the Cypher documentation for more information on indexes and constraints:
+
+* link:https://neo4j.com/docs/cypher-manual/current/indexes/search-performance-indexes/[Search-performance indexes] -> See how to get quicker retrievals of exact matches between an index and the primary data storage.
+* link:https://neo4j.com/docs/cypher-manual/current/indexes/semantic-indexes/[Semantic indexes] -> Read more on how semantic indexes capture the semantic meaning or context of the data in a database.
+* link:https://neo4j.com/docs/cypher-manual/current/indexes/search-performance-indexes/managing-indexes/[Create, show, and drop indexes] -> Discover how to create, show, and drop indexes.
+* link:https://neo4j.com/docs/cypher-manual/current/constraints/managing-constraints/[Create, show, and drop constraints] -> Learn how to create, show, and drop constraints.

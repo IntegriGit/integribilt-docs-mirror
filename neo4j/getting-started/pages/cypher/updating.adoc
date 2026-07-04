@@ -1,0 +1,324 @@
+= Updating the graph
+:tags: cypher, queries, graph-queries, insert-create, update, delete, merge
+:description: This guide explains how to update data that already exists in a graph, using Cypher.
+:page-newsletter: true
+:page-ad-overline-link: https://graphacademy.neo4j.com/?ref=guides
+:page-ad-overline: Neo4j GraphAcademy
+:page-ad-title: Cypher Fundamentals
+:page-ad-description: Learn Cypher in this free, hands-on course
+:page-ad-link: https://graphacademy.neo4j.com/?ref=guides
+:page-ad-underline-role: button
+:page-ad-underline: Learn more
+
+This tutorial shows how to update information in the graph by changing, removing, and adding nodes, relationships, and properties.
+It also addresses how to avoid duplication.
+
+== Create the dataset
+
+After you link:https://neo4j.com/product/auradb/?ref=docs-nav-get-started[create a free Aura instance], use the "Connect" button and select "Query". 
+In the Cypher editor, copy and paste the following Cypher and execute the query:
+
+[source, cypher]
+--
+CREATE (diana:Person {name: "Diana"})
+CREATE (melissa:Person {name: "Melissa", twitter: "@melissa"})
+CREATE (dan:Person {name: "Dan", twitter: "@dan", yearsExperience: 6})
+CREATE (sally:Person {name: "Sally", yearsExperience: 4})
+CREATE (john:Person {name: "John", yearsExperience: 5})
+CREATE (jennifer:Person {name: "Jennifer", twitter: "@jennifer", yearsExperience: 5})
+CREATE (joe:Person {name: "Joe"})
+CREATE (mark:Person {name: "Mark", twitter: "@mark"})
+CREATE (ann:Person {name: "Ann"})
+CREATE (xyz:Company {name: "XYZ"})
+CREATE (x:Company {name: "Company X"})
+CREATE (a:Company {name: "Company A"})
+CREATE (Neo4j:Company {name: "Neo4j"})
+CREATE (abc:Company {name: "ABC"})
+CREATE (query:Technology {type: "Query Languages"})
+CREATE (etl:Technology {type: "Data ETL"})
+CREATE (integrations:Technology {type: "Integrations"})
+CREATE (graphs:Technology {type: "Graphs"})
+CREATE (dev:Technology {type: "Application Development"})
+CREATE (java:Technology {type: "Java"})
+CREATE (diana)-[:LIKES]->(query)
+CREATE (melissa)-[:LIKES]->(query)
+CREATE (dan)-[:LIKES]->(etl)<-[:LIKES]-(melissa)
+CREATE (xyz)<-[:WORKS_FOR]-(sally)-[:LIKES]->(integrations)<-[:LIKES]-(dan)
+CREATE (sally)<-[:IS_FRIENDS_WITH]-(john)-[:LIKES]->(java)
+CREATE (john)<-[:IS_FRIENDS_WITH]-(jennifer)-[:LIKES]->(java)
+CREATE (john)-[:WORKS_FOR]->(xyz)
+CREATE (sally)<-[:IS_FRIENDS_WITH]-(jennifer)-[:IS_FRIENDS_WITH]->(melissa)
+CREATE (joe)-[:LIKES]->(query)
+CREATE (x)<-[:WORKS_FOR]-(diana)<-[:IS_FRIENDS_WITH]-(joe)-[:IS_FRIENDS_WITH]->(mark)-[:LIKES]->(graphs)<-[:LIKES]-(jennifer)-[:WORKS_FOR]->(Neo4j)
+CREATE (ann)<-[:IS_FRIENDS_WITH]-(jennifer)-[:IS_FRIENDS_WITH]->(mark)
+CREATE (john)-[:LIKES]->(dev)<-[:LIKES]-(ann)-[:IS_FRIENDS_WITH]->(dan)-[:WORKS_FOR]->(abc)
+CREATE (ann)-[:WORKS_FOR]->(abc)
+CREATE (a)<-[:WORKS_FOR]-(melissa)-[:LIKES]->(graphs)<-[:LIKES]-(diana)
+--
+
+You should now have a graph with 20 nodes, 31 relationships, 28 properties, and 20 labels.
+
+image::update-graph.svg[All nodes added to the graph,width=500]
+
+== Add a property to a node
+
+If you want to add a birthday for the person named Jennifer, you can add this information as a _property_ with this query:
+
+[source, cypher]
+--
+MATCH (p:Person {name: 'Jennifer'})
+SET p.birthdate = date('1980-01-01')
+RETURN p
+--
+
+This query does the following:
+
+. Find Jennifer's node with the `MATCH` clause.
+. Use `SET` to create the new property `birthday` (with syntax `variable.property`) and set its value.
+. Use `RETURN` to return Jennifer's node and so you can ensure that the information was updated correctly.
+
+This is the tabular result:
+
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| p
+
+| (:Person {twitter: "@jennifer", birthdate: 1980-01-01, name: "Jennifer", yearsExperience: 5})
+
+1+d|Rows: 1
+|===
+
+== Update a property
+
+To change Jennifer's birthdate, you can use the same query from the previous example to find Jennifer's node again, and change the property value by adding a different date with the `SET` clause:
+
+[source, cypher]
+--
+MATCH (p:Person {name: 'Jennifer'})
+SET p.birthdate = date('1980-01-02')
+RETURN p
+--
+
+This is the tabular result:
+
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| p
+
+| (:Person {twitter: "@jennifer", birthdate: 1980-01-02, name: "Jennifer", yearsExperience: 5})
+
+1+d|Rows: 1
+|===
+
+== Delete properties
+
+To remove a property, either use the `REMOVE` clause, or set its value to `null`.
+Neo4j doesn't store properties without values, so doing this removes the property from a node.
+
+.Using the `REMOVE` clause
+[source,cypher]
+--
+MATCH (n:Person {name: 'Jennifer'})
+REMOVE n.birthdate
+--
+
+.Using the `SET` clause
+[source,cypher]
+--
+MATCH (n:Person {name: 'Jennifer'})
+SET n.birthdate = null
+--
+
+With both options, the result is "Set 1 property", and when you `MATCH` it, you see that the result shows the value `null`.
+This means that the property doesn't hold any value and doesn't exist in the graph anymore.
+
+== Add a property to a relationship
+
+If you want to add information about Jennifer's employment, you can add a property to the `[:WORKS_FOR]` relationship.
+The statement is similar to the one used to add a property to a node: 
+
+[source, cypher]
+----
+MATCH (:Person {name: 'Jennifer'})-[rel:WORKS_FOR]-(:Company {name: 'Neo4j'})
+SET rel.startYear = date({year: 2018})
+RETURN rel
+----
+
+This is the result:
+
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| rel
+
+| [:WORKS_FOR {startYear: 2018-01-01}]
+
+1+d|Rows: 1
+|===
+
+== Delete a relationship
+
+You can use the `DELETE` clause to delete both relationships and nodes.
+However, because Neo4j is ACID-compliant, you cannot delete a node if it still has relationships.
+
+Therefore, if you want to xref:cypher/updating.adoc#_delete_a_node[delete a node], for example Jennifer's node, you need to first delete the relationships appended to it:
+
+[source,cypher]
+--
+MATCH (j:Person {name:"Jennifer"})-[r]-(n)
+DELETE r
+--
+
+Note that the arrow is undirected because you want to delete *all* relationships connected to Jennifer, no matter what direction.
+
+The result is the following message: "Deleted 8 relationships".
+
+== Delete a node
+
+If you have deleted all relationships in xref:cypher/updating.adoc#_delete_a_relationship[the previous step], you can delete Jennifer's node with the following query:
+
+[source,cypher]
+--
+MATCH (j:Person {name:"Jennifer"})
+DELETE j
+--
+
+The result is the following message: "Deleted 1 node".
+
+It is also possible to delete a node and all its relationships with a single query using `DETACH DELETE`.
+This is faster but allows less control:
+
+[source, cypher]
+--
+MATCH (m:Person {name: 'Mark'})
+DETACH DELETE m
+--
+
+This removes all relationships attached to Mark's node and the node itself.
+The result is the following message: "Deleted 1 node, deleted 2 relationships".
+
+== Add new data
+
+If you want to add new data to your graph, it's important to avoid duplication.
+For example, if you try to create a node that already exists in the graph using `CREATE`:
+
+[source, cypher]
+--
+CREATE (ann:Person {name: 'Ann'})
+RETURN ann
+--
+
+You create a duplication.
+If you `MATCH` Ann's node:
+
+[source, cypher]
+--
+MATCH (ann:Person {name: 'Ann'})
+RETURN ann
+--
+
+You see there are two nodes containing the same information:
+
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| ann
+
+| (:Person {name: "Ann"})
+| (:Person {name: "Ann"})
+
+1+d|Rows: 2
+|===
+
+However, if you use `MERGE`:
+
+[source, cypher]
+--
+MERGE (ann:Person {name: 'Ann'})
+RETURN ann
+--
+
+Cypher returns the existing node without creating a new one:
+
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| ann
+
+| (:Person {name: "Ann"})
+
+1+d|Rows: 1
+|===
+
+You can try using `MERGE` to see how it works when you don't have the data in the graph:
+
+[source, cypher]
+--
+MERGE (j:Person {name: 'Jack'})
+RETURN j
+--
+
+You get the message "Created 1 node, set 1 property, added 1 label" and the following result:
+
+[role="queryresult",options="header,footer",cols="1*<m"]
+|===
+| j
+
+| (:Person {name: "Jack"})
+
+1+d|Rows: 1
+|===
+
+This means Jack wasn't found in the graph, thus `MERGE` adds it.
+
+If you want to add a relationship between two existing nodes, you need to first `MATCH` them or you will create the same duplication.
+If you use `CREATE` to link Ann and Mark:
+
+[source,cypher]
+--
+CREATE (a:Person {name: 'Ann'})-[r:IS_FRIENDS_WITH]->(m:Person {name: 'Mark'})
+RETURN a, r, m
+--
+
+The result is that you duplicate Ann's node and create a new Mark node (since it was removed in xref:cypher/updating.adoc#_delete_a_node[the previous step]) and add a new `IS_FRIENDS_WITH` relationship between them.
+You get the following message confirming it: "Created 2 nodes, created 1 relationship, set 2 properties, added 2 labels".
+
+If you use `MERGE` instead:
+
+[source,cypher]
+--
+MERGE (j:Person {name: 'Ann'})-[r:IS_FRIENDS_WITH]->(m:Person {name: 'Mark'})
+RETURN j, r, m
+--
+
+The result is more duplication.
+`MERGE` tries to match the *entire* pattern, and if it doesn't exist, it is created.
+
+Even though the graph already has Ann and Mark's nodes, the pattern `(Ann)-[:IS_FRIENDS_WITH]->(Mark)` doesn't exist, so all elements are created anew.
+
+[NOTE]
+====
+If you created the previous duplication, you don't need to fix it before proceeding with the tutorial.
+However, if you didn't do it, you need to create a new node for Mark, as it was removed in xref:cypher/updating.adoc#_delete_a_node[the previous step].
+You can do it using either `CREATE` or `MERGE`.
+====
+
+In order to create the new relationship, without duplications, you need to first `MATCH` Ann and Mark's nodes and then `MERGE` (or `CREATE`) the relationship:
+
+[source, cypher]
+----
+MATCH (a:Person {name: 'Ann'})
+MATCH (m:Person {name: 'Mark'})
+MERGE (a)-[r:IS_FRIENDS_WITH]->(m)
+RETURN a, r, m
+----
+
+image::ann-friends-mark.svg[Ann and Mark's nodes are connected through a is friends with relationship,width=400,role=popup]
+
+== Conclusion
+
+In this tutorial, you have seen how to update nodes, relationships, and properties. 
+You have also seen how to delete data from the graph as well as how to avoid duplication when adding new data.
+
+== Keep learning
+
+If you want to learn more about how to update your graph and find the best way to model your data, refer to:
+
+* xref:data-modeling/index.adoc[*Data modeling*] -> A complete section on how to get started with data modeling through tutorials and reference material.
