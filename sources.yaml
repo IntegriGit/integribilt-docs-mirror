@@ -54,10 +54,10 @@ sources:
   - name: hermes
     lane: 1
     method: git-subtree-copy
-    upstream: Hermes repo (clone it; not currently on disk - resolve exact URL during pull)
+    upstream: https://github.com/IntegriGit/rocky-brain (docs/ and compiled/)
     folder: hermes/
-    refresh: shallow clone/pull, copy docs
-    status: planned
+    refresh: shallow clone/pull, copy all markdown files
+    status: pulled
 
   - name: claude-code
     lane: 1
