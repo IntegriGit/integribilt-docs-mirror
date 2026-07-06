@@ -223,3 +223,11 @@ sources:
       curl -s https://docs.letta.com/llms.txt > letta/llms.txt &&
       curl -s https://docs.letta.com/llms-full.txt > letta/llms-full.txt
     status: pulled
+
+  bitwarden:
+    kind: llms-fetch
+    urls:
+      - https://bitwarden.com/help/secrets-manager-cli/
+      - https://bitwarden.com/help/developer-quick-start/
+      - https://bitwarden.com/help/secrets-manager-overview/
+    note: fetch + convert via doc-to-MD lane; bws-house-operations.md is locally authored
