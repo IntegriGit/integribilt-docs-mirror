@@ -63,10 +63,16 @@ still beats .env in compose precedence — prefer bws run OR .env, never mix.
 
 - Projects: `svr02-stack`, `ofc01-stack`, `shared-providers`
   (LLM/API vendor keys used by both), one per future fleet host as needed.
-- Machine accounts, least privilege:
-  `svr02` → RW svr02-stack, R shared-providers
-  `ofc01` → RW ofc01-stack, R shared-providers
-  Admin/backfill writes happen via console or a short-lived admin token.
+- Machine accounts are **READ-ONLY, always** (owner ruling 2026-07-06):
+  `svr02` → R svr02-stack + R shared-providers; `ofc01` likewise. Deploys
+  only need read. A stolen read token leaks; a stolen write token lets an
+  attacker REPLACE secrets and ride the deploy pipeline into every
+  container — write access is supply-chain risk, not convenience.
+  ALL writes happen via the owner in the web console. When an agent
+  generates a credential (rotation, new DB role), it installs it where it
+  works and hands the owner a console add: key name + where the value
+  lives. Never park generated secrets only in .env — regeneration wipes
+  them (proven 2026-07-06).
 - Token storage: `/etc/bws-token` (root, 600) on Linux; protected file on
   Windows. One machine account per host so a leak burns one machine.
 - Secret naming = env var naming, prefixed by consumer:
